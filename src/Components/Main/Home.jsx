@@ -1,7 +1,6 @@
 // @uthor Manas
 
 import React from "react";
-import Logo from "../../Assets/GREENBUILT.png";
 import HeaderLogo from "../../Assets/green transparent.png";
 import FooterLogo from "../../Assets/GREENBUILT all purple.png";
 import MobileScreen from "../../Assets/mobile.png";
@@ -118,49 +117,77 @@ const Home = () => {
 
       {/* Section 4 */}
 
-      <div className="py-24 px-12 container mx-auto">
-        <h1 className="text-6xl text-center leading-normal text-purple-1">
-          Greener, Cleaner
-          <br />
-          <span className="font-semibold">Future Awaits</span>
-        </h1>
-        <div className="pt-20 flex flex-row justify-between items-center">
-          <div className="w-1/2">
-            <h1 className="text-2xl p-8">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </h1>
+      <div className="py-24 px-4 lg:px-12 container mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-start">
+          <div className="md:w-1/3">
+            <p className="text-xl text-green-1 font-bold">We know our duty</p>
+            <p className="text-xl md:text-2xl text-purple-1 pr-12">
+              We want to contribute to the the betterment of the planet. Helping
+              in making this planet a better place to live.
+            </p>
           </div>
-          <div className="border-4 border-green-1 w-1/2 pb-10 rounded-lg">
-            <div className="bg-section2 bg-no-repeat bg-cover bg-center w-full h-96 -mt-8 -ml-8 rounded-lg"></div>
+          <div className="w-10/12 md:w-2/3">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl text-left text-purple-1">
+              <span className="leading-relaxed">
+                Save the Planet By Buying Products Manufactured using Green
+                Energy and{" "}
+                <span className="font-semibold">
+                  Get Rewarded for Each Purchase
+                </span>
+                .
+              </span>
+            </h1>
+            <button class="inline-flex items-center bg-transparent border-2 border-purple-1 py-1 px-3 focus:outline-none hover:bg-green-1 hover:border-green-1 rounded text-base mt-8 text-purple-1 hover:text-purple-1 duration-500">
+              SignUp
+              <svg
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                class="w-4 h-4 ml-1"
+                viewBox="0 0 24 24"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </button>
           </div>
         </div>
       </div>
 
       {/* Section 6 */}
 
-      <div className="pt-24 px-12 container bg-purple-1">
-        <h1 className="text-6xl text-center leading-normal text-green-1">
-          Lorem Ipsum Dolor
-        </h1>
-        <div className="pt-20 flex flex-row justify-between items-center">
-          <div className="w-1/2">
-            <h1 className="text-2xl p-8 text-white">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+      <div className="lg:pl-12 container bg-purple-1">
+        <div className="pt-20 flex flex-col md:flex-row justify-between items-center">
+          <div className="md:w-1/2">
+            <h1 className="text-5xl md:text-6xl text-left leading-normal text-white font-light pb-8">
+              How it
+              <span className="font-semibold text-green-1"> Works</span>
             </h1>
+            <p className="text-white font-xl pb-4">1. Buy a Green Product.</p>
+            <p className="text-white font-xl pb-4">
+              2. Scan the QR code on it.
+            </p>
+            <p className="text-white font-xl pb-4">3. Earn the Points.</p>
+            <p className="text-white font-xl pb-4">
+              4. Redeem the Points on future offers.
+            </p>
+            <button class="inline-flex items-center bg-transparent border-2 border-white py-1 px-3 focus:outline-none hover:bg-green-1 hover:border-green-1 rounded text-base my-6 text-white hover:text-purple-1 duration-500">
+              SignUp
+              <svg
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                class="w-4 h-4 ml-1"
+                viewBox="0 0 24 24"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </button>
           </div>
-          <div className="w-1/2">
+          <div className="md:w-1/2">
             <img src={Blueprint} alt="" className="" />
           </div>
         </div>
@@ -168,26 +195,18 @@ const Home = () => {
 
       {/* Section 7 */}
 
-      <div className="py-24 px-12 container bg-white">
-        <h1 className="text-6xl text-center leading-normal text-green-1">
-          Lorem Ipsum Dolor
-        </h1>
-        <div className="pt-8 flex flex-row">
-          <div className="">
-            <img
-              className="h-56 w-56"
-              alt=""
-              src="../../../public\logo512.png"
-            />
-          </div>
-          <div className=""></div>
+      <div className="py-24 px-4 lg:px-12 bg-white">
+        <div className="bg-white mx-auto container">
+          <h1 className="text-7xl sm:text-9xl font-semibold text-left leading-normal text-green-1 w-2/3 opacity-50">
+            Clean and Green is the New Cool.
+          </h1>
         </div>
       </div>
 
       {/* Section 8 */}
 
-      <div className="py-24 px-12 bg-purple-1">
-        <div className="pt-8 container mx-auto flex flex-row items-center justify-evenly">
+      <div className="py-24 px-4 lg:px-12 bg-purple-1">
+        <div className="pt-8 container mx-auto flex flex-col-reverse md:flex-row items-center justify-evenly">
           <div className="">
             <img src={MobileScreen} alt="" className="w-56 h-96" />
           </div>
