@@ -1,6 +1,7 @@
 // @uthor Manas
 
 import React from "react";
+import { Link } from "react-router-dom";
 import HeaderLogo from "../../Assets/green transparent.png";
 import FooterLogo from "../../Assets/GREENBUILT all purple.png";
 import MobileScreen from "../../Assets/mobile.png";
@@ -21,20 +22,22 @@ const Home = () => {
                 <img src={HeaderLogo} alt="" className="w-12 h-12" />
               </div>
               <div>
-                <button class="inline-flex items-center bg-transparent border-2 py-1 px-3 focus:outline-none hover:bg-green-1 hover:border-green-1 rounded text-base mt-4 md:mt-0 text-white hover:text-purple-1 duration-500">
-                  LogIn
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    class="w-4 h-4 ml-1"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M5 12h14M12 5l7 7-7 7"></path>
-                  </svg>
-                </button>
+                <Link to="/login">
+                  <button class="inline-flex items-center bg-transparent border-2 py-1 px-3 focus:outline-none hover:bg-green-1 hover:border-green-1 rounded text-base mt-4 md:mt-0 text-white hover:text-purple-1 duration-500">
+                    LogIn
+                    <svg
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      class="w-4 h-4 ml-1"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                  </button>
+                </Link>
               </div>
             </div>
           </header>
@@ -137,7 +140,10 @@ const Home = () => {
                 .
               </span>
             </h1>
-            <button class="inline-flex items-center bg-transparent border-2 border-purple-1 py-1 px-3 focus:outline-none hover:bg-green-1 hover:border-green-1 rounded text-base mt-8 text-purple-1 hover:text-purple-1 duration-500">
+            <Link
+              to="/signup"
+              class="inline-flex items-center bg-transparent border-2 border-purple-1 py-1 px-3 focus:outline-none hover:bg-green-1 hover:border-green-1 rounded text-base mt-8 text-purple-1 hover:text-purple-1 duration-500"
+            >
               SignUp
               <svg
                 fill="none"
@@ -150,7 +156,7 @@ const Home = () => {
               >
                 <path d="M5 12h14M12 5l7 7-7 7"></path>
               </svg>
-            </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -172,20 +178,6 @@ const Home = () => {
             <p className="text-white font-xl pb-4">
               4. Redeem the Points on future offers.
             </p>
-            <button class="inline-flex items-center bg-transparent border-2 border-white py-1 px-3 focus:outline-none hover:bg-green-1 hover:border-green-1 rounded text-base my-6 text-white hover:text-purple-1 duration-500">
-              SignUp
-              <svg
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                class="w-4 h-4 ml-1"
-                viewBox="0 0 24 24"
-              >
-                <path d="M5 12h14M12 5l7 7-7 7"></path>
-              </svg>
-            </button>
           </div>
           <div className="md:w-1/2">
             <img src={Blueprint} alt="" className="" />
@@ -215,7 +207,10 @@ const Home = () => {
               Hop on <br />
               <span className="text-green-1 font-semibold">board!</span>
             </h1>
-            <button class="inline-flex items-center bg-transparent border-2 py-1 px-3 focus:outline-none hover:bg-green-1 hover:border-green-1 rounded text-base mt-8 text-white hover:text-purple-1 duration-500">
+            <Link
+              to="signup"
+              class="inline-flex items-center bg-transparent border-2 py-1 px-3 focus:outline-none hover:bg-green-1 hover:border-green-1 rounded text-base mt-8 text-white hover:text-purple-1 duration-500"
+            >
               SignUp
               <svg
                 fill="none"
@@ -228,7 +223,7 @@ const Home = () => {
               >
                 <path d="M5 12h14M12 5l7 7-7 7"></path>
               </svg>
-            </button>
+            </Link>
 
             <p className="mt-8 text-white font-semibold">
               Download the Mobile App

@@ -16,9 +16,13 @@ module.exports = {
           "url('https://image.shutterstock.com/image-vector/one-continuous-drawing-line-clean-260nw-1703287381.jpg')",
         section2:
           "url('https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Z3JlZW4lMjBlbmVyZ3l8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60')",
+        log: "url('../src/Assets/desk.png')",
       },
       fontFamily: {
         montserrat: ["Montserrat", "sans-serif"],
+      },
+      borderWidth: {
+        1: "1px",
       },
     },
   },
