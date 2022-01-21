@@ -1,27 +1,24 @@
-import {
-  BrowserRouter as Router,
-  Switch,
-  Routes,
-  Route,
-} from "react-router-dom";
-
-import "./App.css";
-import Login from "./Components/Common/Login";
-import SignUp from "./Components/Common/SignUp";
-import Home from "./Components/Main/Home";
-import Dashboard from "./Components/Portals/Business/Pages/Dashboard";
+import { Provider } from 'react-redux'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Login from './components/common/Login'
+import SignUp from './components/common/SignUp'
+import Home from './components/main/Home'
+import Dashboard from './components/portals/business/pages/Dashboard'
+import { store } from './store/store'
 
 function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />\
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
-    </Router>
-  );
+	return (
+		<Provider store={store}>
+			<Router>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/login" element={<Login />} />
+					<Route path="/signup" element={<SignUp />} />\
+					<Route path="/dashboard" element={<Dashboard />} />
+				</Routes>
+			</Router>
+		</Provider>
+	)
 }
 
-export default App;
+export default App
