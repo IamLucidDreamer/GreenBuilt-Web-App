@@ -12,10 +12,10 @@ const Dashboard = () => {
             Dashboard
           </button>
           <button className="text-white py-2 border-2 border-purple-1 hover:border-white rounded-lg hover:bg-white hover:text-purple-1 my-2">
-            Dashboard
+            Manage QR
           </button>
           <button className="text-white py-2 border-2 border-purple-1 hover:border-white rounded-lg hover:bg-white hover:text-purple-1 my-2">
-            Dashboard
+            Manage Rewards
           </button>
           <button className="text-white py-2 border-2 border-purple-1 hover:border-white rounded-lg hover:bg-white hover:text-purple-1 my-2">
             Dashboard
@@ -47,6 +47,37 @@ const Dashboard = () => {
           <h1 className="text-2xl text-white py-2 font-semibold">Dashboard</h1>
           <div>
             <div className="w-7 h-7 rounded-full bg-green-1"></div>
+          </div>
+        </div>
+        <div className="flex flex-wrap p-4 justify-between">
+          <div className="bg-green-1 p-4 m-4 rounded-lg w-96 h-40">
+            <h1 className="text-3xl text-purple-1">Data</h1>
+            <h1 className="text-4xl text-purple-1">Number</h1>
+          </div>
+
+          <div className="bg-green-1 p-4 m-4 rounded-lg w-96 h-40">
+            <h1 className="text-3xl text-purple-1">Data</h1>
+            <h1 className="text-4xl text-purple-1">Number</h1>
+          </div>
+
+          <div className="bg-green-1 p-4 m-4 rounded-lg w-96 h-40">
+            <h1 className="text-3xl text-purple-1">Data</h1>
+            <h1 className="text-4xl text-purple-1">Number</h1>
+          </div>
+
+          <div className="bg-green-1 p-4 m-4 rounded-lg w-96 h-40">
+            <h1 className="text-3xl text-purple-1">Data</h1>
+            <h1 className="text-4xl text-purple-1">Number</h1>
+          </div>
+
+          <div className="bg-green-1 p-4 m-4 rounded-lg w-96 h-40">
+            <h1 className="text-3xl text-purple-1">Data</h1>
+            <h1 className="text-4xl text-purple-1">Number</h1>
+          </div>
+
+          <div className="bg-green-1 p-4 m-4 rounded-lg w-96 h-40">
+            <h1 className="text-3xl text-purple-1">Data</h1>
+            <h1 className="text-4xl text-purple-1">Number</h1>
           </div>
         </div>
       </div>
