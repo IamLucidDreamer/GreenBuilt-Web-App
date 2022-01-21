@@ -1,6 +1,6 @@
 import React from "react";
 
-import Logo from "../../../../Assets/GREENBUILT.png";
+import Logo from "../../../../assets/GREENBUILT.png";
 
 const Dashboard = () => {
   return (
@@ -82,7 +82,7 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
-  );
+  )
 };
 
 export default Dashboard;

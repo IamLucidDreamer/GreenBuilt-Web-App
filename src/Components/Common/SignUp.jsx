@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import Logo from "../../Assets/GREENBUILT all purple.png";
+import Logo from "../../assets/GREENBUILT all purple.png";
 
 const SignUp = () => {
   return (
