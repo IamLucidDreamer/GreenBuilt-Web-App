@@ -1,9 +1,18 @@
-import { LOGIN } from '../constants/index'
+import { IS_AUTH, LOGIN } from '../constants/index'
 
-const userReducer = (state = {}, action) => {
+const initialValues = {
+	auth: false,
+}
+const userReducer = (state = initialValues, action) => {
 	switch (action.type) {
 		case LOGIN: {
 			return action.payload
+		}
+		case IS_AUTH: {
+			return {
+				...state,
+				auth: action.payload,
+			}
 		}
 		default:
 			return state

@@ -1,8 +1,14 @@
+import { toast } from 'react-toastify'
 import axios from '../../helpers/http-helper'
-import { LOGIN } from '../constants'
+import { IS_AUTH, LOGIN } from '../constants'
 
 const setUserDetails = data => ({
 	type: LOGIN,
+	payload: data,
+})
+
+const setAuth = data => ({
+	type: IS_AUTH,
 	payload: data,
 })
 
@@ -15,7 +21,35 @@ export const login =
 				password,
 			})
 			.then(res => {
-				dispatch(setUserDetails(res.data))
+				{
+					res?.data?.data?.role === 1
+						? toast.warning(
+								"Web Portal is for Business's and Admins only. Please use the mobile app Instead."
+						  )
+						: toast.success(res?.data?.message)
+					dispatch(setUserDetails(res?.data?.data))
+					dispatch(setAuth(true))
+					if (window !== undefined) {
+						localStorage.setItem('jwt', JSON.stringify(res?.data?.token))
+					}
+				}
 			})
-			.catch(err => console.log({ err }))
+			.catch(err => toast.error(err?.response?.data?.error))
+	}
+
+export const signUpBusiness =
+	({ name, phone, email, password }) =>
+	dispatch => {
+		axios
+			.post('/signUp?userType=2', {
+				name,
+				phone,
+				email,
+				password,
+			})
+			.then(res => {
+				toast.success(res.data.message)
+				dispatch(login({ email, password }))
+			})
+			.catch(err => toast.error(err.response.data.error))
 	}
