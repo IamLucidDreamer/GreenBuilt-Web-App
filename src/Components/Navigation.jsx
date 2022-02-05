@@ -3,7 +3,8 @@ import { Routes, Route, useNavigate } from 'react-router-dom'
 import Home from './Main/Home'
 import Login from './Common/Login'
 import SignUp from './Common/SignUp'
-import Dashboard from './Portals/Business/Pages/Dashboard'
+import BusinessDashboard from './Portals/Business/Pages/Dashboard'
+import AdminDashboard from './Portals/CRM/Pages/Dashboard'
 import { useSelector } from 'react-redux'
 
 const Navigation = () => {
@@ -21,13 +22,13 @@ const Navigation = () => {
 			{/* Handling the Business Routes */}
 
 			{user?.role === 2 && authenticated ? (
-				<Route path="/business/dashboard" element={<Dashboard />} />
+				<Route path="/business/dashboard" element={<BusinessDashboard />} />
 			) : null}
 
 			{/* Handling the Admin Routes */}
 
 			{user?.role === 3 && authenticated ? (
-				<Route path="/admin/dashboard" element={<Dashboard />} />
+				<Route path="/admin/dashboard" element={<AdminDashboard />} />
 			) : (
 				() => handleUnAuth()
 			)}
