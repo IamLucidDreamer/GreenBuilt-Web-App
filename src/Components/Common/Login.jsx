@@ -19,6 +19,8 @@ const Login = () => {
 			if (user?.role === 3) {
 				navigate('/business/dashboard')
 			}
+		} else {
+			navigate('/')
 		}
 	}, [user])
 

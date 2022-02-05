@@ -19,8 +19,13 @@ const Dashboard = () => {
 				</div>
 
 				<div className="px-4 md:px-10 mx-auto w-full -m-24 z-50">
-					<Products />
-					<GenerateQr />
+					<Routes>
+						<Route path="/" element={<Products />} />
+						<Route
+							path="/dashboard/business/generateqr"
+							element={<GenerateQr />}
+						/>
+					</Routes>
 				</div>
 			</div>
 		</>

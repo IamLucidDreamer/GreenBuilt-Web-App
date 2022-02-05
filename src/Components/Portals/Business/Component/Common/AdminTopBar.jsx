@@ -1,6 +1,9 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { logout } from '../../../../../store/actions/user'
 
 function AdminTopBar() {
+	const navigate = useNavigate()
 	return (
 		<>
 			{/* Navbar */}
@@ -16,7 +19,13 @@ function AdminTopBar() {
 					</a>
 					{/* User */}
 					<ul className="flex-col md:flex-row list-none items-center hidden md:flex">
-						<div className="rounded-full bg-red-500 w-10 h-10"></div>
+						<div
+							className="rounded-full bg-red-500 w-10 h-10"
+							onClick={() => {
+								logout()
+								navigate('/login')
+							}}
+						></div>
 					</ul>
 				</div>
 			</nav>

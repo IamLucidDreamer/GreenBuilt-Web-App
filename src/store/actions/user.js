@@ -53,3 +53,14 @@ export const signUpBusiness =
 			})
 			.catch(err => toast.error(err.response.data.error))
 	}
+
+const logout = () => {
+	return dispatch => {
+		localStorage.clear()
+		dispatch(setUserDetails(null))
+		axios.get('/signout')
+		toast.success('User Logged out')
+	}
+}
+
+export { logout }
