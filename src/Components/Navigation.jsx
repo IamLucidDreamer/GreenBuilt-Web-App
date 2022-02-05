@@ -26,7 +26,7 @@ const Navigation = () => {
 
 			{/* Handling the Admin Routes */}
 
-			{user?.role === 4 && authenticated ? (
+			{user?.role === 3 && authenticated ? (
 				<Route path="/admin/dashboard" element={<Dashboard />} />
 			) : (
 				() => handleUnAuth()

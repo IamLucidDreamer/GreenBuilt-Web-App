@@ -56,7 +56,7 @@ export const signUpBusiness =
 
 const logout = () => {
 	return dispatch => {
-		localStorage.clear()
+		localStorage.removeItem('jwt')
 		dispatch(setUserDetails(null))
 		axios.get('/signout')
 		toast.success('User Logged out')

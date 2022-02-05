@@ -1,9 +1,11 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { logout } from '../../../../../store/actions/user'
 
 function AdminTopBar() {
 	const navigate = useNavigate()
+	const dispatch = useDispatch()
 	return (
 		<>
 			{/* Navbar */}
@@ -22,7 +24,7 @@ function AdminTopBar() {
 						<div
 							className="rounded-full bg-red-500 w-10 h-10"
 							onClick={() => {
-								logout()
+								dispatch(logout())
 								navigate('/login')
 							}}
 						></div>

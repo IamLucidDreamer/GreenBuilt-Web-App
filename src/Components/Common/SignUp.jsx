@@ -1,14 +1,29 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { authenticated } from '../../helpers/auth'
 import Logo from '../../assets/GREENBUILT all purple.png'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { signUpBusiness } from '../../store/actions/user'
 
 const SignUp = () => {
 	const dispatch = useDispatch()
+	const user = useSelector(state => state.user)
+	const navigate = useNavigate()
+
+	useEffect(() => {
+		if (authenticated) {
+			if (user?.role === 2) {
+				navigate('/business/dashboard')
+			}
+			if (user?.role === 3) {
+				navigate('/admin/dashboard')
+			}
+		} else {
+			navigate('/')
+		}
+	}, [user])
 
 	const formik = useFormik({
 		initialValues: {
