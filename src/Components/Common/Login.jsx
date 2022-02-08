@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react'
-import FooterLogo from '../../assets/GREENBUILT all purple.png'
+import FooterLogo from '../../assets/Greenbuilt all purple.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { login } from '../../store/actions/user'
 import { useSelector, useDispatch } from 'react-redux'
