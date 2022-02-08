@@ -6,6 +6,9 @@ import SignUp from './Common/SignUp'
 import BusinessDashboard from './Portals/Business/Pages/Dashboard'
 import AdminDashboard from './Portals/CRM/Pages/Dashboard'
 import { useSelector } from 'react-redux'
+import ProductPage from './Portals/Business/Pages/ProductPage'
+import CreateProduct from './Portals/Business/Pages/CreateProduct'
+import GenerateqrPage from './Portals/Business/Pages/GenerateqrPage'
 
 const Navigation = () => {
 	const token = localStorage.getItem('jwt')
@@ -22,7 +25,12 @@ const Navigation = () => {
 			{/* Handling the Business Routes */}
 
 			{user?.role === 2 && authenticated ? (
-				<Route path="/business/dashboard" element={<BusinessDashboard />} />
+				<>
+					<Route path="/business/dashboard" element={<BusinessDashboard />} />
+					<Route path="/business/product" element={<ProductPage />} />
+					<Route path="/business/addnewproduct" element={<CreateProduct />} />
+					<Route path="/business/generateqr" element={<GenerateqrPage />} />
+				</>
 			) : null}
 
 			{/* Handling the Admin Routes */}

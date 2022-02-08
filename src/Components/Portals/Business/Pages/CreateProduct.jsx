@@ -6,7 +6,7 @@ import Sidebar from '../Component/Common/Sidebar'
 import AdminTopBar from '../Component/Common/AdminTopBar'
 import HeaderStats from '../Component/Common/HeaderStats'
 
-const Dashboard = () => {
+const CreateProduct = () => {
 	const [sideBar, setSideBar] = useState(false)
 	return (
 		<>
@@ -19,11 +19,11 @@ const Dashboard = () => {
 				</div>
 
 				<div className="px-4 md:px-10 mx-auto w-full -m-24 z-50">
-					<Products />
+					<CreateProduct />
 				</div>
 			</div>
 		</>
 	)
 }
 
-export default Dashboard
+export default CreateProduct

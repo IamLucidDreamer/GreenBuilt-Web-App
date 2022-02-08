@@ -6,7 +6,7 @@ import Sidebar from '../Component/Common/Sidebar'
 import AdminTopBar from '../Component/Common/AdminTopBar'
 import HeaderStats from '../Component/Common/HeaderStats'
 
-const Dashboard = () => {
+const ProductPage = () => {
 	const [sideBar, setSideBar] = useState(false)
 	return (
 		<>
@@ -26,4 +26,4 @@ const Dashboard = () => {
 	)
 }
 
-export default Dashboard
+export default ProductPage

@@ -11,7 +11,7 @@ function GenerateQr() {
 	useEffect(() => {
 		const token = JSON.parse(localStorage.getItem('jwt'))
 		axios
-			.get('/product/get-all', {
+			.get('/product/get-all/corporate', {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -36,7 +36,7 @@ function GenerateQr() {
 
 	const handleGenerateQR = values => {
 		const token = JSON.parse(localStorage.getItem('jwt'))
-		console.log(values)
+		console.log(values.productId)
 		axios
 			.post(
 				`/qr/generate/${values.productId}`,
@@ -56,24 +56,29 @@ function GenerateQr() {
 	}
 
 	return (
-		<div class="max-w-sm rounded-lg overflow-hidden shadow-lg bg-red-900">
+		<div class="relative rounded-lg overflow-hidden shadow-lg bg-purple-1">
 			{/* Generate Qr */}
-			<div className="m-4 p-4 bg-yellow-300">
+			<div className="m-4 p-4 bg-white">
 				<h1>Generate QR</h1>
 				<form className="" onSubmit={formik.handleSubmit}>
 					<div className="my-2 flex flex-col">
 						<label className="text-sm text-purple-1 py-1.5 font-semibold">
 							Select Product
 						</label>
-						<select {...formik.getFieldProps('productId')}>
+						<select
+							{...formik.getFieldProps('productId')}
+							className="border-2 border-purple-1 rounded-lg"
+						>
 							<option disabled className="text-red-700">
 								Choose the Product
 							</option>
-							{cols.map(data => (
-								<option value={data.productId} className="text-red-700">
-									{data.title}
-								</option>
-							))}
+							{cols.map(data => {
+								return (
+									<option value={data.productId} className="text-red-700">
+										{data.title}
+									</option>
+								)
+							})}
 						</select>
 						{formik.touched.productId && formik.errors.productId ? (
 							<div>{formik.errors.productId}</div>
@@ -87,7 +92,13 @@ function GenerateQr() {
 					</button>
 				</form>
 			</div>
-			<div className={show !== '' ? 'block mb-10' : 'hidden'}>
+			<div
+				className={
+					show !== ''
+						? 'block mb-10 items-center justify-center flex'
+						: 'hidden'
+				}
+			>
 				<QRCode value={show} />
 			</div>
 		</div>

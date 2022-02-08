@@ -1,10 +1,16 @@
 import React from 'react'
+import {
+	TiPowerOutline,
+	TiThSmallOutline,
+	TiUserAdd,
+	TiLocationArrow,
+} from 'react-icons/ti'
 
 function HeaderStats() {
 	return (
 		<>
 			{/* Header */}
-			<div className="relative bg-green-700 md:pt-32 pb-32 pt-12">
+			<div className="relative bg-slate-600 md:pt-32 pb-32 pt-12">
 				<div className="px-4 md:px-10 mx-auto w-full">
 					<div>
 						{/* Card stats */}
@@ -17,8 +23,7 @@ function HeaderStats() {
 									statPercent="3.48"
 									statPercentColor="text-emerald-500"
 									statDescripiron="Since last month"
-									statIconName="far fa-chart-bar"
-									statIconColor="bg-red-500"
+									statIconName="TiPowerOutline"
 								/>
 							</div>
 							<div className="w-full lg:w-6/12 xl:w-3/12 px-4">
@@ -29,8 +34,7 @@ function HeaderStats() {
 									statPercent="3.48"
 									statPercentColor="text-red-500"
 									statDescripiron="Since last week"
-									statIconName="fas fa-chart-pie"
-									statIconColor="bg-orange-500"
+									statIconName="TiThSmallOutline"
 								/>
 							</div>
 							<div className="w-full lg:w-6/12 xl:w-3/12 px-4">
@@ -41,20 +45,18 @@ function HeaderStats() {
 									statPercent="1.10"
 									statPercentColor="text-orange-500"
 									statDescripiron="Since yesterday"
-									statIconName="fas fa-users"
-									statIconColor="bg-pink-500"
+									statIconName="TiLocationArrow"
 								/>
 							</div>
 							<div className="w-full lg:w-6/12 xl:w-3/12 px-4">
 								<CardStats
-									statSubtitle="CUSTOMER REACH"
+									statSubtitle="CUSTOMER'S REACHED"
 									statTitle="12,120"
 									statArrow="up"
 									statPercent="12"
 									statPercentColor="text-emerald-500"
 									statDescripiron="Since last month"
-									statIconName="fas fa-percent"
-									statIconColor="bg-blue-500"
+									statIconName="TiUserAdd"
 								/>
 							</div>
 						</div>
@@ -93,11 +95,19 @@ function CardStats({
 						<div className="relative w-auto pl-4 flex-initial">
 							<div
 								className={
-									'text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full ' +
-									statIconColor
+									'text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-gradient-to-br from-[#4bc834] to-[#1e6100]'
 								}
 							>
-								<i className={statIconName}></i>
+								{statIconName === 'TiPowerOutline' ? (
+									<TiPowerOutline size={40} />
+								) : null}
+								{statIconName === 'TiThSmallOutline' ? (
+									<TiThSmallOutline size={40} />
+								) : null}
+								{statIconName === 'TiLocationArrow' ? (
+									<TiLocationArrow size={40} />
+								) : null}
+								{statIconName === 'TiUserAdd' ? <TiUserAdd size={40} /> : null}
 							</div>
 						</div>
 					</div>

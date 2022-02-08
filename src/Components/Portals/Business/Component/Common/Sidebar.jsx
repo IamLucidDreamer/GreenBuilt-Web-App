@@ -7,7 +7,7 @@ function Sidebar() {
 	const [collapseShow, setCollapseShow] = React.useState('hidden')
 	return (
 		<>
-			<nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
+			<nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-purple-1 flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
 				<div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
 					{/* Toggler */}
 					<button
@@ -81,9 +81,9 @@ function Sidebar() {
 							<li className="items-center">
 								<Link
 									className={
-										'text-xs uppercase py-3 font-bold block ' +
+										'text-xs uppercase py-3 font-bold block text-white ' +
 										(window.location.href.indexOf('/business//dashboard') !== -1
-											? 'text-lightBlue-500 hover:text-lightBlue-600'
+											? 'text-lightBlue-500 hover:text-white'
 											: 'text-blueGray-700 hover:text-blueGray-500')
 									}
 									to="/business/dashboard"
@@ -104,12 +104,12 @@ function Sidebar() {
 							<li className="items-center">
 								<Link
 									className={
-										'text-xs uppercase py-3 font-bold block ' +
-										(window.location.href.indexOf('/business/products') !== -1
+										'text-xs uppercase py-3 font-bold block text-white ' +
+										(window.location.href.indexOf('/business/product') !== -1
 											? 'text-lightBlue-500 hover:text-lightBlue-600'
 											: 'text-blueGray-700 hover:text-blueGray-500')
 									}
-									to="/business/products"
+									to="/business/product"
 								>
 									<i
 										className={
@@ -126,7 +126,7 @@ function Sidebar() {
 							<li className="items-center">
 								<Link
 									className={
-										'text-xs uppercase py-3 font-bold block ' +
+										'text-xs uppercase py-3 font-bold block text-white ' +
 										(window.location.href.indexOf('/business/generateqr') !== -1
 											? 'text-lightBlue-500 hover:text-lightBlue-600'
 											: 'text-blueGray-700 hover:text-blueGray-500')
@@ -149,7 +149,7 @@ function Sidebar() {
 							<li className="items-center">
 								<Link
 									className={
-										'text-xs uppercase py-3 font-bold block ' +
+										'text-xs uppercase py-3 font-bold block text-white ' +
 										(window.location.href.indexOf('/business/history') !== -1
 											? 'text-lightBlue-500 hover:text-lightBlue-600'
 											: 'text-blueGray-700 hover:text-blueGray-500')

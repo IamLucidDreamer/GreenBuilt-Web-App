@@ -47,20 +47,9 @@ const Login = () => {
 			<div className="min-h-screen bg-purple-1 flex items-center justify-center bg-log bg-center bg-no-repeat bg-cover">
 				<div className="w-1/3 bg-white rounded-lg p-4">
 					<img src={FooterLogo} className="w-16 h-16 mx-auto" alt="" />
-					<h1 className="text-xs text-purple-1 py-2 text-center">LogIn with</h1>
-					<div className="border-b-1 border-purple-1 flex flex-col md:flex-row items-center justify-evenly">
-						<button className="bg-green-1 py-1.5 px-3 rounded-lg m-2">
-							Google
-						</button>
-						<button className="bg-green-1 py-1.5 px-3 rounded-lg m-2">
-							Facebook
-						</button>
-						<button className="bg-green-1 py-1.5 px-3 rounded-lg m-2">
-							Others
-						</button>
-					</div>
+
 					<h1 className="text-xs text-purple-1 pt-3 text-center">
-						Or LogIn with Credentials
+						LogIn with Credentials
 					</h1>
 					<form className="" onSubmit={formik.handleSubmit}>
 						<div className="my-2 flex flex-col">
