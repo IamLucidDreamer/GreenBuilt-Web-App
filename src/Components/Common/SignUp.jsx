@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { authenticated } from '../../helpers/auth'
-import Logo from '../../assets/Greenbuilt all purple.png'
+import Logo from '../../assets/GreenbuiltPurple.png'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux'
