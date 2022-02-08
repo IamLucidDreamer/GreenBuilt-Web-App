@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Link } from 'react-router-dom'
-import HeaderLogo from '../../assets/greentransparent.png'
+import HeaderLogo from '../../assets/greentransparentbgimage.png'
 import FooterLogo from '../../assets/GreenbuiltPurple.png'
 import MobileScreen from '../../assets/mobile.png'
 import Coupon from '../../assets/price.png'
