@@ -2,6 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { logout } from '../../../../../store/actions/user'
+import { TiUser } from 'react-icons/ti'
 
 function AdminTopBar() {
 	const navigate = useNavigate()
@@ -22,12 +23,14 @@ function AdminTopBar() {
 					{/* User */}
 					<ul className="flex-col md:flex-row list-none items-center hidden md:flex">
 						<div
-							className="rounded-full bg-red-500 w-10 h-10"
+							className="rounded-full bg-gradient-to-br from-[#4bc834] to-[#1e6100] p-1.5 items-center justify-center"
 							onClick={() => {
 								dispatch(logout())
 								navigate('/login')
 							}}
-						></div>
+						>
+							<TiUser size={40} color={'#fff'} />
+						</div>
 					</ul>
 				</div>
 			</nav>
