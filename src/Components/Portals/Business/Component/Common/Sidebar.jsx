@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Logo from '../../../../../assets/GREENBUILT.png'
+import Logo from '../../../../../assets/logoGreenbuilt.png'
 
 import { Link } from 'react-router-dom'
 
@@ -33,7 +33,7 @@ function Sidebar() {
 						className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
 						to="/"
 					>
-						<img src={Logo} alt="" className="w-16 h-16  mx-auto" />
+						<img src={Logo} alt="" className="w-10/12  mx-auto" />
 					</Link>
 
 					<div

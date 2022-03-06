@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Link } from 'react-router-dom'
-import HeaderLogo from '../../assets/green.png'
+import HeaderLogo from '../../assets/logoGreenbuilt.png'
 import FooterLogo from '../../assets/greenbuiltpurple.png'
 import MobileScreen from '../../assets/mobile.png'
 import Coupon from '../../assets/price.png'
@@ -19,7 +19,7 @@ const Home = () => {
 					<header class="text-gray-600 body-font">
 						<div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center justify-between">
 							<div>
-								<img src={HeaderLogo} alt="" className="w-12 h-12" />
+								<img src={HeaderLogo} alt="" className="w-5/12" />
 							</div>
 							<div>
 								<Link to="/login">

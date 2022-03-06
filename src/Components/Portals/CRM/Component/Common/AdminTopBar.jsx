@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { logout } from '../../../../../store/actions/user'
 import { TiUser } from 'react-icons/ti'
 
-function AdminTopBar() {
+function AdminTopBar(props) {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	return (
@@ -18,19 +18,19 @@ function AdminTopBar() {
 						href="#pablo"
 						onClick={e => e.preventDefault()}
 					>
-						Dashboard
+						{props.pageName}
 					</a>
 					{/* User */}
 					<ul className="flex-col md:flex-row list-none items-center hidden md:flex">
-						<div
-							className="rounded-full bg-gradient-to-br from-[#4bc834] to-[#1e6100] p-1.5 items-center justify-center"
+						<button
+							className="rounded-full bg-gradient-to-br from-[#017f02] to-[#06788f] p-1.5 items-center justify-center"
 							onClick={() => {
 								dispatch(logout())
 								navigate('/login')
 							}}
 						>
 							<TiUser size={40} color={'#fff'} />
-						</div>
+						</button>
 					</ul>
 				</div>
 			</nav>

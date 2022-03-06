@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react'
-import FooterLogo from '../../assets/greenbuiltpurple.png'
+import FooterLogo from '../../assets/logoGreenbuilt.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { login } from '../../store/actions/user'
 import { useSelector, useDispatch } from 'react-redux'
@@ -46,7 +46,7 @@ const Login = () => {
 		<>
 			<div className="min-h-screen bg-purple-1 flex items-center justify-center bg-log bg-center bg-no-repeat bg-cover">
 				<div className="w-1/3 bg-white rounded-lg p-4">
-					<img src={FooterLogo} className="w-16 h-16 mx-auto" alt="" />
+					<img src={FooterLogo} className="w-7/12 mx-auto" alt="" />
 
 					<h1 className="text-xs text-purple-1 pt-3 text-center">
 						LogIn with Credentials

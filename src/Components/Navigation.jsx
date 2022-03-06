@@ -9,6 +9,10 @@ import { useSelector } from 'react-redux'
 import ProductPage from './Portals/Business/Pages/ProductPage'
 import CreateProduct from './Portals/Business/Pages/CreateProduct'
 import GenerateqrPage from './Portals/Business/Pages/GenerateqrPage'
+import { BusinessUsers } from './Portals/CRM/Component/BusinessUsers'
+import Users from './Portals/CRM/Pages/Users'
+import Approvals from './Portals/CRM/Pages/Approvals'
+import AssetMaster from './Portals/CRM/Pages/AssetMaster'
 
 const Navigation = () => {
 	const token = localStorage.getItem('jwt')
@@ -36,7 +40,15 @@ const Navigation = () => {
 			{/* Handling the Admin Routes */}
 
 			{user?.role === 3 && authenticated ? (
-				<Route path="/admin/dashboard" element={<AdminDashboard />} />
+				<>
+					<Route path="/admin/dashboard" element={<AdminDashboard />} />
+					<Route path="/admin/dashboard/users" element={<Users />} />
+					<Route path="/admin/dashboard/approvals" element={<Approvals />} />
+					<Route
+						path="/admin/dashboard/assetmanager"
+						element={<AssetMaster />}
+					/>
+				</>
 			) : (
 				() => handleUnAuth()
 			)}

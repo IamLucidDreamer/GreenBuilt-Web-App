@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import Logo from '../../../../../assets/GREENBUILT.png'
-
+import Logo from '../../../../../assets/logoGreenbuilt.png'
 import { Link } from 'react-router-dom'
 
 function Sidebar() {
@@ -33,7 +32,7 @@ function Sidebar() {
 						className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
 						to="/"
 					>
-						<img src={Logo} alt="" className="w-16 h-16  mx-auto" />
+						<img src={Logo} alt="" className="w-10/12  mx-auto" />
 					</Link>
 
 					<div
@@ -88,64 +87,36 @@ function Sidebar() {
 									}
 									to="/business/dashboard"
 								>
-									<i
-										className={
-											'fas fa-tv mr-2 text-sm ' +
-											(window.location.href.indexOf('/business/dashboard') !==
-											-1
-												? 'opacity-75'
-												: 'text-blueGray-300')
-										}
-									></i>{' '}
 									Dashboard
 								</Link>
 							</li>
 
 							<li className="items-center">
 								<Link
-									className={
-										'text-xs uppercase py-3 font-bold block ' +
-										(window.location.href.indexOf('/business/products') !== -1
-											? 'text-white hover:text-lightBlue-600'
-											: 'text-white hover:text-blueGray-500')
-									}
-									to="/business/products"
+									className="text-xs uppercase py-3 font-bold block text-white hover:text-blue-600"
+									to="/admin/dashboard/users"
 								>
-									<i
-										className={
-											'fas fa-tools mr-2 text-sm ' +
-											(window.location.href.indexOf('/business/products') !== -1
-												? 'opacity-75'
-												: 'text-blueGray-300')
-										}
-									></i>{' '}
-									Products
+									Users
 								</Link>
 							</li>
 
 							<li className="items-center">
 								<Link
-									className={
-										'text-xs uppercase py-3 font-bold block ' +
-										(window.location.href.indexOf('/business/generateqr') !== -1
-											? 'text-white hover:text-lightBlue-600'
-											: 'text-white hover:text-blueGray-500')
-									}
-									to="/business/generateqr"
+									className="text-xs uppercase py-3 font-bold block text-white hover:text-blue-600"
+									to="/admin/dashboard/approvals"
 								>
-									<i
-										className={
-											'fas fa-table mr-2 text-sm ' +
-											(window.location.href.indexOf('/business/generateqr') !==
-											-1
-												? 'opacity-75'
-												: 'text-blueGray-300')
-										}
-									></i>{' '}
-									Generate QR
+									Approvals
 								</Link>
 							</li>
 
+							<li className="items-center">
+								<Link
+									className="text-xs uppercase py-3 font-bold block text-white hover:text-blue-600"
+									to="/admin/dashboard/assetmanager"
+								>
+									Asset Manager
+								</Link>
+							</li>
 							<li className="items-center">
 								<Link
 									className={
@@ -164,7 +135,26 @@ function Sidebar() {
 												: 'text-blueGray-300')
 										}
 									></i>{' '}
-									history
+									Points Manager
+								</Link>
+								<Link
+									className={
+										'text-xs uppercase py-3 font-bold block ' +
+										(window.location.href.indexOf('/business/history') !== -1
+											? 'text-white hover:text-lightBlue-600'
+											: 'text-white hover:text-blueGray-500')
+									}
+									to="/business/history"
+								>
+									<i
+										className={
+											'fas fa-map-marked mr-2 text-sm ' +
+											(window.location.href.indexOf('/business/history') !== -1
+												? 'opacity-75'
+												: 'text-blueGray-300')
+										}
+									></i>{' '}
+									Product Manager
 								</Link>
 							</li>
 						</ul>

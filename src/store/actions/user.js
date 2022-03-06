@@ -21,31 +21,32 @@ export const login =
 				password,
 			})
 			.then(res => {
-				{
-					res?.data?.data?.role === 1
-						? toast.warning(
-								"Web Portal is for Business's and Admins only. Please use the mobile app Instead."
-						  )
-						: toast.success(res?.data?.message)
-					dispatch(setUserDetails(res?.data?.data))
-					dispatch(setAuth(true))
-					if (window !== undefined) {
-						localStorage.setItem('jwt', JSON.stringify(res?.data?.token))
-					}
+				res?.data?.data?.role === 1
+					? toast.warning(
+							"Web Portal is for Business's and Admins only. Please use the mobile app Instead."
+					  )
+					: toast.success(res?.data?.message)
+				dispatch(setUserDetails(res?.data?.data))
+				dispatch(setAuth(true))
+				if (window !== undefined) {
+					localStorage.setItem('jwt', JSON.stringify(res?.data?.token))
 				}
 			})
 			.catch(err => toast.error(err?.response?.data?.error))
 	}
 
 export const signUpBusiness =
-	({ name, phone, email, password }) =>
+	({ name, phoneNumber, email, password, ebServiceNo, gstin, industryType }) =>
 	dispatch => {
 		axios
 			.post('/signUp?userType=2', {
 				name,
-				phone,
+				phoneNumber,
 				email,
 				password,
+				ebServiceNo,
+				gstin,
+				industryType,
 			})
 			.then(res => {
 				toast.success(res.data.message)
@@ -54,7 +55,7 @@ export const signUpBusiness =
 			.catch(err => toast.error(err.response.data.error))
 	}
 
-const logout = () => {
+export const logout = () => {
 	return dispatch => {
 		localStorage.removeItem('jwt')
 		dispatch(setUserDetails(null))
@@ -62,5 +63,3 @@ const logout = () => {
 		toast.success('User Logged out')
 	}
 }
-
-export { logout }

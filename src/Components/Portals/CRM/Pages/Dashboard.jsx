@@ -1,25 +1,21 @@
 import React from 'react'
-import { Route, Routes } from 'react-router-dom'
-import ApproveProduct from '../Component/ApproveProduct'
 import Sidebar from '../Component/Common/Sidebar'
 import AdminTopBar from '../Component/Common/AdminTopBar'
-import HeaderStats from '../Component/Common/HeaderStats'
-import ApproveBusinessUsers from '../Component/ApproveBusinessusers'
+import DashboardStats from '../Component/DashboardStats'
 
 const Dashboard = () => {
 	return (
 		<>
 			<Sidebar />
-			<div className="relative md:ml-64 bg-blueGray-100">
-				<AdminTopBar />
+			<div className="relative md:ml-64 bg-gray-100">
 				{/* Header */}
-				<div className="-z-50">
-					<HeaderStats />
+				<div className="relative bg-slate-600 md:pt-32 pb-32 pt-12">
+					<div className="px-4 md:px-10 mx-auto w-full">
+						<AdminTopBar pageName="Dashboard" />
+					</div>
 				</div>
-				{console.log('Hello1')}
-				<div className="px-4 md:px-10 mx-auto w-full -m-24 z-50">
-					<ApproveBusinessUsers />
-					<ApproveProduct />
+				<div className="mx-auto w-full -m-44 z-50">
+					<DashboardStats />
 				</div>
 			</div>
 		</>
