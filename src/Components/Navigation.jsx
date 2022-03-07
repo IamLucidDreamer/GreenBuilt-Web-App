@@ -13,6 +13,7 @@ import { BusinessUsers } from './Portals/CRM/Component/BusinessUsers'
 import Users from './Portals/CRM/Pages/Users'
 import Approvals from './Portals/CRM/Pages/Approvals'
 import AssetMaster from './Portals/CRM/Pages/AssetMaster'
+import ProductManager from './Portals/CRM/Pages/ProductManager'
 
 const Navigation = () => {
 	const token = localStorage.getItem('jwt')
@@ -47,6 +48,10 @@ const Navigation = () => {
 					<Route
 						path="/admin/dashboard/assetmanager"
 						element={<AssetMaster />}
+					/>
+					<Route
+						path="/admin/dashboard/productmanager"
+						element={<ProductManager />}
 					/>
 				</>
 			) : (

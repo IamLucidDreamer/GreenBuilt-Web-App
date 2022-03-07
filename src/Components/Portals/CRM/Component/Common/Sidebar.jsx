@@ -138,22 +138,9 @@ function Sidebar() {
 									Points Manager
 								</Link>
 								<Link
-									className={
-										'text-xs uppercase py-3 font-bold block ' +
-										(window.location.href.indexOf('/business/history') !== -1
-											? 'text-white hover:text-lightBlue-600'
-											: 'text-white hover:text-blueGray-500')
-									}
-									to="/business/history"
+									className="text-xs uppercase py-3 font-bold block text-white hover:text-blue-600"
+									to="/admin/dashboard/productmanager"
 								>
-									<i
-										className={
-											'fas fa-map-marked mr-2 text-sm ' +
-											(window.location.href.indexOf('/business/history') !== -1
-												? 'opacity-75'
-												: 'text-blueGray-300')
-										}
-									></i>{' '}
 									Product Manager
 								</Link>
 							</li>

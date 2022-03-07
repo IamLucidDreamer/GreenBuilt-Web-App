@@ -9,8 +9,9 @@ import { BusinessUsers } from '../Component/BusinessUsers'
 import Button from '@mui/material/Button'
 import { EndUsers } from '../Component/EndUsers'
 import { AssetMasterTable } from '../Component/AssetMasterTable'
+import { ProductManagerTable } from '../Component/ProductManagerTable'
 
-const AssetMaster = () => {
+const ProductManager = () => {
 	return (
 		<>
 			<Sidebar />
@@ -18,16 +19,16 @@ const AssetMaster = () => {
 				{/* Header */}
 				<div className="relative bg-slate-600 md:pt-32 pb-32 pt-12">
 					<div className="px-4 md:px-10 mx-auto w-full">
-						<AdminTopBar pageName={'Dashboard / Product Manager'} />
+						<AdminTopBar pageName={'Dashboard / Asset Master'} />
 					</div>
 				</div>
 
 				<div className="px-4 md:px-10 mx-auto w-full -m-44 z-50">
-					<AssetMasterTable />
+					<ProductManagerTable />
 				</div>
 			</div>
 		</>
 	)
 }
 
-export default AssetMaster
+export default ProductManager

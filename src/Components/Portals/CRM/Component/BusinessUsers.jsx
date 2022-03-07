@@ -529,6 +529,11 @@ const BusinessUsers = () => {
 			title: 'GSTIN',
 			render: data => data.gstin,
 		},
+		{
+			key: 'points',
+			title: 'Points',
+			render: data => data.points,
+		},
 		// {
 		// 	key: 'dateOfBirth',
 		// 	title: 'Age',

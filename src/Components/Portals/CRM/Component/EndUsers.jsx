@@ -26,12 +26,12 @@ import {
 	ReloadOutlined,
 } from '@ant-design/icons'
 import QS from 'query-string'
+import { CSVLink } from 'react-csv'
 import { DataTable } from './Common/Table/Table'
 import { useTable } from 'react-table'
 import axios from '../../../../helpers/http-helper'
-import { PageHeader } from 'antd'
-import { innerTableActionBtnDesign } from './Common/InnerTableButtonDesign'
 import { HCLayout } from './Common/Layout/HCLayout'
+import { innerTableActionBtnDesign } from './Common/InnerTableButtonDesign'
 import { Desc } from './Common/Layout/Desc'
 
 const EndUsers = () => {
@@ -41,7 +41,7 @@ const EndUsers = () => {
 
 	const { TextArea } = Input
 
-	const [business, setBusiness] = useState([])
+	const [endUsers, setEndUsers] = useState([])
 
 	const [loading, setLoading] = useState(true)
 
@@ -55,17 +55,9 @@ const EndUsers = () => {
 
 	const [title, setTitle] = useState('')
 
-	const [allLabours, setAllLabours] = useState([])
+	const [allEndUsers, setAllEndUsers] = useState([])
 
 	const [body, setBody] = useState('')
-
-	const [totalLabours, setTotalLabours] = useState(0)
-
-	const [unempLabours, setUnempLabours] = useState(0)
-
-	const [empLabours, setEmpLabours] = useState(0)
-
-	const [bannedLabours, setBannedLabours] = useState(0)
 
 	const [showTrash, setShowTrash] = useState(false)
 
@@ -80,6 +72,7 @@ const EndUsers = () => {
 
 	const [selectedIds, setSelectedIds] = useState([])
 	const [selectedTempIds, setSelectedTempIds] = useState([])
+	const [showForm, setShowForm] = useState(false)
 
 	const refreshTable = queryString => {
 		setLoading(true)
@@ -93,10 +86,7 @@ const EndUsers = () => {
 			})
 			.then(res => {
 				console.log(res)
-				res.data.user?.map(
-					val => (val.isApproved = val?.isApproved ? 'Approved' : 'Pending')
-				)
-				setBusiness(res.data.user.filter(val => val.role === 2))
+				setEndUsers(res.data.user.filter(val => val.role === 1))
 			})
 			.catch(err => {
 				console.log(err)
@@ -119,10 +109,7 @@ const EndUsers = () => {
 				data.map(item => {
 					item.key = item.id
 				})
-				data?.map(
-					val => (val.isApproved = val?.isApproved ? 'Approved' : 'Pending')
-				)
-				setBusiness(data.filter(val => val.role === 1))
+				setEndUsers(data.filter(val => val.role === 1))
 			})
 			.catch(err => {
 				console.log(err)
@@ -143,23 +130,16 @@ const EndUsers = () => {
 		}
 	}
 
-	const getAllLabourData = () => {
+	const getAllEndUsers = () => {
 		axios
-			.get(
-				'/user/get-all',
-				{},
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			)
+			.get('/user/get-all', {
+				headers: {
+					Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImV4cCI6MTY2MjE5MjAyOC42OTcsImlhdCI6MTY0NjI5NDQyOH0.O2Iz1ensiibs_rBCN3hj_ORoUjLff83FOR5IMs1IAt0`,
+				},
+			})
 			.then(res => {
-				console.log(res)
-				res.data.user?.map(
-					val => (val.isApproved = val?.isApproved ? 'Approved' : 'Pending')
-				)
-				setBusiness(res.data.user.filter(val => val.role === 2))
+				console.log(res, 'Hello')
+				setAllEndUsers(res.data.user.filter(val => val.role === 2))
 			})
 			.catch(err => {
 				console.log(err)
@@ -168,21 +148,7 @@ const EndUsers = () => {
 
 	useEffect(() => {
 		requestsCaller()
-
-		getAllLabourData()
-		// request(`/api/count/labourers`, 'GET')
-		// 	.then(async data => {
-		// 		setTotalLabours(data.totalLabourers)
-		// 		setEmpLabours(data.employedLabourers)
-		// 		setUnempLabours(data.unemployedLabourers)
-		// 		setBannedLabours(data.bannedLabourers)
-		// 	})
-		// 	.catch(err => {
-		// 		throw err
-		// 	})
-
-		// const interval = setInterval(requestsCaller, 300000);
-		// return () => clearInterval(interval);
+		getAllEndUsers()
 	}, [])
 
 	useEffect(() => {
@@ -269,7 +235,11 @@ const EndUsers = () => {
 			<Col>
 				<div className="">
 					Trash: &nbsp;
-					<Switch defaultChecked={showTrash} onChange={getTrash} />
+					<Switch
+						defaultChecked={showTrash}
+						onChange={getTrash}
+						style={{ backgroundColor: '#616161' }}
+					/>
 				</div>
 			</Col>
 			<Col>
@@ -282,68 +252,22 @@ const EndUsers = () => {
 				</Button>
 			</Col>
 			<Col>
-				{/* <Button type="primary" className="flex items-center">
-					<BellOutlined /> Upload CSV{' '}
-				</Button> */}
+				<Button className="w-44" type="primary" style={{ fontWeight: 'bold' }}>
+					<CSVLink
+						filename="EndUsers.csv"
+						data={allEndUsers.map(endUser => {
+							const updatedEndUsers = { ...endUser }
+							return updatedEndUsers
+						})}
+						onClick={() => {
+							message.success('The file is downloading')
+						}}
+						className="w-44"
+					>
+						Export to CSV
+					</CSVLink>
+				</Button>
 			</Col>
-			{/* <Col>
-				{userContext.access['download'][0] ? (
-					<Button className="w-44" type="primary" style={{ border: 'none' }}>
-						<CSVLink
-							filename="Labourers.csv"
-							data={allLabours.map(labour => {
-								const updatedLabour = { ...labour }
-								updatedLabour.expLevel = ``.concat(
-									`${updatedLabour.labour?.expLevel} years`
-								)
-								updatedLabour.gender =
-									updatedLabour.gender === 1 ? 'Male' : 'Female'
-								updatedLabour.locale =
-									updatedLabour.locale === 3
-										? 'ta'
-										: updatedLabour.locale === 2
-										? 'hi'
-										: 'en'
-								updatedLabour.phone = `=""`.concat(updatedLabour.phone, `""`)
-								if (updatedLabour.bankDetails !== undefined) {
-									if (updatedLabour.bankDetails?.aadhaarNo)
-										updatedLabour.aadhaarNo = `=""`.concat(
-											updatedLabour.bankDetails?.aadhaarNo,
-											`""`
-										)
-									if (updatedLabour.bankDetails?.bankAccountNo)
-										updatedLabour.bankAccountNo = `=""`.concat(
-											updatedLabour.bankDetails?.bankAccountNo,
-											`""`
-										)
-									if (updatedLabour.bankDetails?.ifscCode)
-										updatedLabour.ifscCode = updatedLabour.bankDetails?.ifscCode
-									if (updatedLabour.bankDetails?.backAadhaarPhoto)
-										updatedLabour.backAadhaarPhoto =
-											updatedLabour.bankDetails?.backAadhaarPhoto
-									if (updatedLabour.bankDetails?.frontAadhaarPhoto)
-										updatedLabour.frontAadhaarPhoto =
-											updatedLabour.bankDetails?.frontAadhaarPhoto
-								}
-								updatedLabour.isBanned = !updatedLabour.isBanned
-									? 'false'
-									: 'true'
-								delete updatedLabour.id
-								delete updatedLabour.labour
-								delete updatedLabour.bankDetails
-								delete updatedLabour.role
-								return updatedLabour
-							})}
-							onClick={() => {
-								message.success('The file is downloading')
-							}}
-							className="w-44"
-						>
-							Export to CSV
-						</CSVLink>
-					</Button>
-				) : null}
-			</Col> */}
 		</Row>,
 	]
 
@@ -582,19 +506,19 @@ const EndUsers = () => {
 			filterIcon: () => <SearchOutlined style={{ fontSize: 18 }} />,
 		},
 		{
+			key: 'age',
+			title: 'Age',
+			render: data => data.age,
+		},
+		{
 			key: 'gender',
 			title: 'Gender',
-			render: data => (data?.gender === 1 ? 'Male' : 'Female'),
+			render: data => (data.gender === 1 ? 'Male' : 'Female'),
 		},
 		{
-			key: 'dateOfBirth',
-			title: 'Date Of Birth',
-			render: data => data.dateOfBirth,
-		},
-		{
-			key: 'address',
-			title: 'Address',
-			render: data => data.address,
+			key: 'points',
+			title: 'Points',
+			render: data => data.points,
 		},
 		// {
 		// 	key: 'dateOfBirth',
@@ -732,7 +656,7 @@ const EndUsers = () => {
 				/>
 			) : null}
 			<DataTable
-				usersData={business}
+				usersData={endUsers}
 				searchable={false}
 				differUserRows
 				pagination={false}
@@ -740,11 +664,11 @@ const EndUsers = () => {
 				rowSelection={rowSelection}
 				columns={columns}
 			/>
-			<Row gutter={[8, 8]} className="p-5">
+			<Row gutter={[8, 8]} className="p-5 bg-purple-1">
 				<Col offset={21}>
 					<Button
 						type="primary"
-						onClick={() => paginationHandler('b', business[0].id)}
+						onClick={() => paginationHandler('b', endUsers[0].id)}
 						title="Prev"
 					>
 						Prev
@@ -754,7 +678,7 @@ const EndUsers = () => {
 					<Button
 						type="primary"
 						onClick={() =>
-							paginationHandler('f', business[business.length - 1].id)
+							paginationHandler('f', endUsers[endUsers.length - 1].id)
 						}
 						title="Next"
 					>

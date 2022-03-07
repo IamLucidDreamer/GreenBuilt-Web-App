@@ -35,14 +35,14 @@ import { innerTableActionBtnDesign } from './Common/InnerTableButtonDesign'
 import { Desc } from './Common/Layout/Desc'
 import { AddNewAssestForm } from './AddNewAssetForm'
 
-const AssetMasterTable = () => {
+const ProductManagerTable = () => {
 	const token = localStorage.getItem('jwt')
 
 	const { TabPane } = Tabs
 
 	const { TextArea } = Input
 
-	const [asset, setAsset] = useState([])
+	const [product, setProduct] = useState([])
 
 	const [loading, setLoading] = useState(true)
 
@@ -80,14 +80,14 @@ const AssetMasterTable = () => {
 		console.log('refreshTable')
 
 		axios
-			.get('/user/get-all', {
+			.get('/product/get-all/admin', {
 				headers: {
 					Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImV4cCI6MTY2MjE5MjAyOC42OTcsImlhdCI6MTY0NjI5NDQyOH0.O2Iz1ensiibs_rBCN3hj_ORoUjLff83FOR5IMs1IAt0`,
 				},
 			})
 			.then(res => {
 				console.log(res)
-				setAsset(res.data.data)
+				setProduct(res.data.data)
 			})
 			.catch(err => {
 				console.log(err)
@@ -99,7 +99,7 @@ const AssetMasterTable = () => {
 		console.log('requestCaller')
 		console.log(token)
 		axios
-			.get('/asset/get-all?limit=10', {
+			.get('/product/get-all/admin', {
 				headers: {
 					Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImV4cCI6MTY2MjE5MjAyOC42OTcsImlhdCI6MTY0NjI5NDQyOH0.O2Iz1ensiibs_rBCN3hj_ORoUjLff83FOR5IMs1IAt0`,
 				},
@@ -111,8 +111,7 @@ const AssetMasterTable = () => {
 					item.key = item.id
 				})
 				console.log(res)
-				setAsset(res.data.data)
-				console.log(asset)
+				setProduct(res.data.data)
 			})
 			.catch(err => {
 				console.log(err)
@@ -452,9 +451,9 @@ const AssetMasterTable = () => {
 
 	const columns = [
 		{
-			key: 'name',
-			title: 'Name',
-			render: data => data.name,
+			key: 'title',
+			title: 'Title',
+			render: data => data.title,
 			filterDropdown: () => (
 				<Row className="p-3 shadow-lg">
 					<Col>
@@ -494,9 +493,9 @@ const AssetMasterTable = () => {
 			filterIcon: () => <SearchOutlined style={{ fontSize: 18 }} />,
 		},
 		{
-			key: 'sourceType',
-			title: 'Source Type',
-			render: data => data.sourceType,
+			key: 'industryType',
+			title: 'Industry Type',
+			render: data => data.industryType,
 			filterDropdown: () => (
 				<Row className="p-3 shadow-lg">
 					<Col>
@@ -536,9 +535,9 @@ const AssetMasterTable = () => {
 			filterIcon: () => <SearchOutlined style={{ fontSize: 18 }} />,
 		},
 		{
-			key: 'serviceNo',
-			title: 'Service Number',
-			render: data => data.serviceNo,
+			key: 'packingType',
+			title: 'Packing Type',
+			render: data => data.packingType,
 			filterDropdown: () => (
 				<Row className="p-3 shadow-lg">
 					<Col>
@@ -740,7 +739,7 @@ const AssetMasterTable = () => {
 	const skillData = data.skills || []
 	return (
 		<>
-			<HCLayout title="Asset Master" actions={actionBtn}>
+			<HCLayout title="Product Manager" actions={actionBtn}>
 				{showTrash ? (
 					<Alert
 						type="warning"
@@ -750,7 +749,7 @@ const AssetMasterTable = () => {
 				) : null}
 				<div className="overflow-x-scroll">
 					<DataTable
-						usersData={asset}
+						usersData={product}
 						searchable={false}
 						differUserRows
 						pagination={false}
@@ -763,7 +762,7 @@ const AssetMasterTable = () => {
 					<Col offset={21}>
 						<Button
 							type="primary"
-							onClick={() => paginationHandler('b', asset[0].id)}
+							onClick={() => paginationHandler('b', product[0].id)}
 							title="Prev"
 						>
 							Prev
@@ -772,7 +771,9 @@ const AssetMasterTable = () => {
 					<Col>
 						<Button
 							type="primary"
-							onClick={() => paginationHandler('f', asset[asset.length - 1].id)}
+							onClick={() =>
+								paginationHandler('f', product[product.length - 1].id)
+							}
 							title="Next"
 						>
 							Next
@@ -934,4 +935,4 @@ const AssetMasterTable = () => {
 	)
 }
 
-export { AssetMasterTable }
+export { ProductManagerTable }

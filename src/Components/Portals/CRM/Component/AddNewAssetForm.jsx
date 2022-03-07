@@ -2,23 +2,52 @@ import react from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import axios from '../../../../helpers/http-helper'
+import { toast } from 'react-toastify'
 
 export const AddNewAssestForm = () => {
 	const token = localStorage.getItem('jwt')
 
 	const handleNewAsset = value => {
+		const {
+			name,
+			sourceType,
+			serviceNo,
+			make,
+			model,
+			capacity,
+			substation,
+			latitude,
+			longitude,
+			edc,
+		} = value
 		axios
 			.post(
 				`/asset/upload/3`,
-				{ data: { asset: { value } } },
+				{
+					asset: {
+						name,
+						sourceType,
+						serviceNo,
+						make,
+						model,
+						capacity,
+						substation,
+						edc,
+						latitude,
+						longitude,
+					},
+				},
 				{
 					headers: {
 						Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImV4cCI6MTY2MjM2NzkxNS4zNywiaWF0IjoxNjQ2NDcwMzE1fQ.0JroQYgg7SD10OjuP6DWmUK-Mi_vqnkMncEaa9vavlE`,
 					},
 				}
 			)
-			.then(res => console.log(res))
-			.catch(err => console.log(err))
+			.then(res => toast.success(res.data.message))
+			.catch(err => {
+				console.log(err)
+				toast.error(err.response.data.message)
+			})
 	}
 
 	const formik = useFormik({
