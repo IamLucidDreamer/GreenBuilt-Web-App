@@ -6,6 +6,9 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux'
 import { signUpBusiness } from '../../store/actions/user'
+// Firebase Imports
+import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
+import { auth } from '../../helpers/firebase'
 
 const SignUp = () => {
 	const dispatch = useDispatch()

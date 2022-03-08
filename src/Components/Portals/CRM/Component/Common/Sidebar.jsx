@@ -1,6 +1,14 @@
 import React, { useState } from 'react'
 import Logo from '../../../../../assets/logoGreenbuilt.png'
 import { Link } from 'react-router-dom'
+import {
+	AppstoreOutlined,
+	UserOutlined,
+	CheckOutlined,
+	DeploymentUnitOutlined,
+	BarsOutlined,
+	FileProtectOutlined,
+} from '@ant-design/icons'
 
 function Sidebar() {
 	const [collapseShow, setCollapseShow] = React.useState('hidden')
@@ -22,7 +30,7 @@ function Sidebar() {
 							stroke-width="2"
 							class="w-4 h-4 ml-1"
 							viewBox="0 0 24 24"
-							className={`w-7 h-7 text-red-900 rotate-180`}
+							className={`w-7 h-7 text-red-600 rotate-180`}
 						>
 							<path d="M5 12h14M12 5l7 7-7 7"></path>
 						</svg>
@@ -79,68 +87,68 @@ function Sidebar() {
 						<ul className="md:flex-col md:min-w-full flex flex-col list-none">
 							<li className="items-center">
 								<Link
-									className={
-										'text-xs uppercase py-3 font-bold block ' +
-										(window.location.href.indexOf('/business/dashboard') !== -1
-											? 'text-white hover:text-lightBlue-600'
-											: 'text-white hover:text-blueGray-500')
-									}
+									className="text-xs uppercase py-3 font-bold flex text-white hover:text-blue-600 items-center"
 									to="/business/dashboard"
 								>
+									<AppstoreOutlined
+										style={{ fontSize: '20px', paddingRight: '10px' }}
+									/>
 									Dashboard
 								</Link>
 							</li>
 
 							<li className="items-center">
 								<Link
-									className="text-xs uppercase py-3 font-bold block text-white hover:text-blue-600"
+									className="text-xs uppercase py-3 font-bold flex text-white hover:text-blue-600 items-center"
 									to="/admin/dashboard/users"
 								>
+									<UserOutlined
+										style={{ fontSize: '20px', paddingRight: '10px' }}
+									/>
 									Users
 								</Link>
 							</li>
 
 							<li className="items-center">
 								<Link
-									className="text-xs uppercase py-3 font-bold block text-white hover:text-blue-600"
+									className="text-xs uppercase py-3 font-bold flex text-white hover:text-blue-600 items-center"
 									to="/admin/dashboard/approvals"
 								>
+									<CheckOutlined
+										style={{ fontSize: '20px', paddingRight: '10px' }}
+									/>
 									Approvals
 								</Link>
 							</li>
 
 							<li className="items-center">
 								<Link
-									className="text-xs uppercase py-3 font-bold block text-white hover:text-blue-600"
+									className="text-xs uppercase py-3 font-bold flex text-white hover:text-blue-600 items-center"
 									to="/admin/dashboard/assetmanager"
 								>
+									<DeploymentUnitOutlined
+										style={{ fontSize: '20px', paddingRight: '10px' }}
+									/>
 									Asset Manager
 								</Link>
 							</li>
 							<li className="items-center">
 								<Link
-									className={
-										'text-xs uppercase py-3 font-bold block ' +
-										(window.location.href.indexOf('/business/history') !== -1
-											? 'text-white hover:text-lightBlue-600'
-											: 'text-white hover:text-blueGray-500')
-									}
+									className="text-xs uppercase py-3 font-bold flex text-white hover:text-blue-600 items-center"
 									to="/business/history"
 								>
-									<i
-										className={
-											'fas fa-map-marked mr-2 text-sm ' +
-											(window.location.href.indexOf('/business/history') !== -1
-												? 'opacity-75'
-												: 'text-blueGray-300')
-										}
-									></i>{' '}
+									<FileProtectOutlined
+										style={{ fontSize: '20px', paddingRight: '10px' }}
+									/>
 									Points Manager
 								</Link>
 								<Link
-									className="text-xs uppercase py-3 font-bold block text-white hover:text-blue-600"
+									className="text-xs uppercase py-3 font-bold flex text-white hover:text-blue-600 items-center"
 									to="/admin/dashboard/productmanager"
 								>
+									<BarsOutlined
+										style={{ fontSize: '20px', paddingRight: '10px' }}
+									/>
 									Product Manager
 								</Link>
 							</li>

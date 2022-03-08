@@ -14,6 +14,7 @@ import Users from './Portals/CRM/Pages/Users'
 import Approvals from './Portals/CRM/Pages/Approvals'
 import AssetMaster from './Portals/CRM/Pages/AssetMaster'
 import ProductManager from './Portals/CRM/Pages/ProductManager'
+import SignUpOtp from './Common/SignUpOtp'
 
 const Navigation = () => {
 	const token = localStorage.getItem('jwt')
@@ -25,7 +26,7 @@ const Navigation = () => {
 		<Routes>
 			<Route path="/" element={<Home />} />
 			<Route path="/login" element={<Login />} />
-			<Route path="/signup" element={<SignUp />} />
+			<Route path="/signup" element={<SignUpOtp />} />
 
 			{/* Handling the Business Routes */}
 
@@ -35,6 +36,7 @@ const Navigation = () => {
 					<Route path="/business/product" element={<ProductPage />} />
 					<Route path="/business/addnewproduct" element={<CreateProduct />} />
 					<Route path="/business/generateqr" element={<GenerateqrPage />} />
+					<Route path="/business/history" element={<GenerateqrPage />} />
 				</>
 			) : null}
 

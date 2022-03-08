@@ -1,0 +1,12 @@
+thead[class*='ant-table-thead'] th {
+	background: rgb(211, 211, 214);
+	font-size: 16px;
+	font-weight: bold;
+}
+col:nth-child(2n + 1) {
+	background: rgb(240, 240, 240);
+}
+
+.rowDisabled {
+	background-color: #dddddd !important;
+}

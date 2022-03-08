@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import {
+	EyeOutlined,
+	EditOutlined,
+	DeleteOutlined,
+	SearchOutlined,
+	BellOutlined,
+	ExclamationOutlined,
+	CloseOutlined,
 	ReloadOutlined,
-	BankOutlined,
-	BarsOutlined,
-	DeploymentUnitOutlined,
-	IdcardOutlined,
-	QrcodeOutlined,
-	CameraOutlined,
-	UserOutlined,
-	SettingOutlined,
 } from '@ant-design/icons'
 import Button from '@mui/material/Button'
 import axios from '../../../../helpers/http-helper'
 import LinearProgress from '@mui/material/LinearProgress'
 
-const DashboardStats = () => {
+const BusinessDashboardStats = () => {
 	const [stats, setStats] = useState('')
 	const [loader, setLoader] = useState(false)
 
@@ -51,53 +50,21 @@ const DashboardStats = () => {
 						className="h-8"
 						onClick={() => dataLoader()}
 					>
-						<ReloadOutlined style={{ fontSize: '20px' }} />
+						<ReloadOutlined size="large" />
 					</Button>
 				</div>
 				<div className="flex flex-wrap items-center justify-around">
-					<DashboardCard
-						title={'Total Users'}
-						stat={stats.totalEndUsers}
-						icon={1}
-					/>
-					<DashboardCard
-						title={'Total Industry Types'}
-						stat={stats.totalIndustryTypes}
-						icon={2}
-					/>
-					<DashboardCard
-						title={'Business Users'}
-						stat={stats.businessUserCount}
-						icon={3}
-					/>
-					<DashboardCard title={'End Users'} stat={stats.userCount} icon={4} />
-					<DashboardCard
-						title={'Total Products'}
-						stat={stats.totalProducts}
-						icon={5}
-					/>
-					<DashboardCard
-						title={'Total Assets'}
-						stat={stats.totalAssets}
-						icon={6}
-					/>
-					<DashboardCard
-						title={"Total QR's Generated"}
-						stat={stats.totalQRGenerated}
-						icon={7}
-					/>
-					<DashboardCard
-						title={"Total QR's Consumed"}
-						stat={stats.totalQRConsumed}
-						icon={8}
-					/>
+					<DashboardCard title={'Points'} stat={'3,43,212'} />
+					<DashboardCard title={'Total Products'} stat={'49'} />
+					<DashboardCard title={"Total QR's Generated"} stat={'34'} />
+					<DashboardCard title={"Total QR's Consumed"} stat={'30'} />
 				</div>
 			</div>
 		</>
 	)
 }
 
-export default DashboardStats
+export default BusinessDashboardStats
 
 // Card Component for Stats
 export const DashboardCard = props => {
@@ -116,33 +83,10 @@ export const DashboardCard = props => {
 						</div>
 						<div
 							className={
-								'text-white p-3 text-center inline-flex items-center justify-center shadow-lg rounded-full bg-gradient-to-br from-[#017f02] to-[#06788f]'
+								'text-white p-3 text-center inline-flex items-center justify-center shadow-lg rounded-full bg-gradient-to-br from-[#4bc834] to-[#1e6100]'
 							}
 						>
-							{props.icon === 1 ? (
-								<UserOutlined style={{ fontSize: '40px' }} />
-							) : null}
-							{props.icon === 2 ? (
-								<SettingOutlined style={{ fontSize: '40px' }} />
-							) : null}
-							{props.icon === 3 ? (
-								<BankOutlined style={{ fontSize: '40px' }} />
-							) : null}
-							{props.icon === 4 ? (
-								<IdcardOutlined style={{ fontSize: '40px' }} />
-							) : null}
-							{props.icon === 5 ? (
-								<BarsOutlined style={{ fontSize: '40px' }} />
-							) : null}
-							{props.icon === 6 ? (
-								<DeploymentUnitOutlined style={{ fontSize: '40px' }} />
-							) : null}
-							{props.icon === 7 ? (
-								<QrcodeOutlined style={{ fontSize: '40px' }} />
-							) : null}
-							{props.icon === 8 ? (
-								<CameraOutlined style={{ fontSize: '40px' }} />
-							) : null}
+							<EyeOutlined size={''} />
 						</div>
 					</div>
 				</div>
