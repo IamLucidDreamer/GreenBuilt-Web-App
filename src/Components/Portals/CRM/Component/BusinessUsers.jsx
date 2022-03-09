@@ -35,7 +35,7 @@ import { innerTableActionBtnDesign } from './Common/InnerTableButtonDesign'
 import { Desc } from './Common/Layout/Desc'
 
 const BusinessUsers = () => {
-	const token = localStorage.getItem('jwt')
+	const token = JSON.parse(localStorage.getItem('jwt'))
 
 	const { TabPane } = Tabs
 
@@ -76,12 +76,11 @@ const BusinessUsers = () => {
 
 	const refreshTable = queryString => {
 		setLoading(true)
-		console.log('refreshTable')
 
 		axios
 			.get('/user/get-all', {
 				headers: {
-					Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImV4cCI6MTY2MjE5MjAyOC42OTcsImlhdCI6MTY0NjI5NDQyOH0.O2Iz1ensiibs_rBCN3hj_ORoUjLff83FOR5IMs1IAt0`,
+					Authorization: `Bearer ${token}`,
 				},
 			})
 			.then(res => {
@@ -98,12 +97,10 @@ const BusinessUsers = () => {
 
 	const requestsCaller = () => {
 		setLoading(true)
-		console.log('requestCaller')
-		console.log(token)
 		axios
 			.get('/user/get-all', {
 				headers: {
-					Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImV4cCI6MTY2MjE5MjAyOC42OTcsImlhdCI6MTY0NjI5NDQyOH0.O2Iz1ensiibs_rBCN3hj_ORoUjLff83FOR5IMs1IAt0`,
+					Authorization: `Bearer ${token}`,
 				},
 			})
 			.then(res => {
@@ -140,7 +137,7 @@ const BusinessUsers = () => {
 		axios
 			.get('/user/get-all', {
 				headers: {
-					Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImV4cCI6MTY2MjE5MjAyOC42OTcsImlhdCI6MTY0NjI5NDQyOH0.O2Iz1ensiibs_rBCN3hj_ORoUjLff83FOR5IMs1IAt0`,
+					Authorization: `Bearer ${token}`,
 				},
 			})
 			.then(res => {
@@ -673,33 +670,12 @@ const BusinessUsers = () => {
 				usersData={business}
 				searchable={false}
 				differUserRows
-				pagination={false}
+				pagination={true}
 				loading={loading}
 				rowSelection={rowSelection}
 				columns={columns}
 			/>
-			<Row gutter={[8, 8]} className="p-5 bg-purple-1">
-				<Col offset={21}>
-					<Button
-						type="primary"
-						onClick={() => paginationHandler('b', business[0].id)}
-						title="Prev"
-					>
-						Prev
-					</Button>
-				</Col>
-				<Col>
-					<Button
-						type="primary"
-						onClick={() =>
-							paginationHandler('f', business[business.length - 1].id)
-						}
-						title="Next"
-					>
-						Next
-					</Button>
-				</Col>
-			</Row>
+			<div className="py-3 bg-purple-1"></div>
 			<Drawer
 				title={siderProps.title}
 				width="750px"

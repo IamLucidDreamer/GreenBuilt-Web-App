@@ -707,7 +707,7 @@ const Products = () => {
 				columns={columns}
 			/>
 			<Row gutter={[8, 8]} className="p-5 bg-purple-1">
-				<Col offset={21}>
+				<Col className="flex ml-auto">
 					<Button
 						type="primary"
 						onClick={() => {

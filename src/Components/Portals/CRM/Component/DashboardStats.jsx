@@ -22,19 +22,18 @@ const DashboardStats = () => {
 
 	const dataLoader = () => {
 		setLoader(true)
-		const token = localStorage.getItem('jwt')
-		console.log(token)
+		const token = JSON.parse(localStorage.getItem('jwt'))
 		axios
-			.get(`/statistics/get-all`, {
+			.get(`/statistics/admin/get-all`, {
 				headers: {
-					Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImV4cCI6MTY2MjM2NzkxNS4zNywiaWF0IjoxNjQ2NDcwMzE1fQ.0JroQYgg7SD10OjuP6DWmUK-Mi_vqnkMncEaa9vavlE`,
+					Authorization: `Bearer ${token}`,
 				},
 			})
 			.then(res => {
 				setStats(res.data.data)
 			})
 			.catch(err => console.log(err))
-			.finally(setTimeout(() => setLoader(false), 10000))
+			.finally(setLoader(false))
 	}
 
 	return (
@@ -50,6 +49,7 @@ const DashboardStats = () => {
 						variant="contained"
 						className="h-8"
 						onClick={() => dataLoader()}
+						style={{ backgroundColor: '#140035' }}
 					>
 						<ReloadOutlined style={{ fontSize: '20px' }} />
 					</Button>

@@ -3,7 +3,7 @@ import './HCLayout.css'
 
 export const HCLayout = ({ children, actions = [], onBack, title }) => (
 	// eslint-disable-next-line react/jsx-filename-extension
-	<div className="pb-6">
+	<div className="pb-6 px-6">
 		<div
 			className="site-page-header-ghost-wrapper relative border-8 border-purple-1 rounded-2xl"
 			style={{ padding: '0px', backgroundColor: '#F0F2F5' }}

@@ -30,6 +30,7 @@ const Users = () => {
 							variant="contained"
 							size="large"
 							onClick={() => setBusiness(true)}
+							style={{ backgroundColor: '#140035', width: '175px' }}
 						>
 							Business Users
 						</Button>
@@ -37,6 +38,7 @@ const Users = () => {
 							variant="contained"
 							size="large"
 							onClick={() => setBusiness(false)}
+							style={{ backgroundColor: '#140035', width: '175px' }}
 						>
 							End Users
 						</Button>
