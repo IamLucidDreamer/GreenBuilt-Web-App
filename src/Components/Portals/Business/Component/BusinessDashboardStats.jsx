@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import {
-	EyeOutlined,
-	EditOutlined,
-	DeleteOutlined,
-	SearchOutlined,
-	BellOutlined,
-	ExclamationOutlined,
-	CloseOutlined,
 	ReloadOutlined,
+	DeploymentUnitOutlined,
+	QrcodeOutlined,
+	CameraOutlined,
+	UserOutlined,
 } from '@ant-design/icons'
 import Button from '@mui/material/Button'
 import axios from '../../../../helpers/http-helper'
@@ -21,19 +18,19 @@ const BusinessDashboardStats = () => {
 
 	const dataLoader = () => {
 		setLoader(true)
-		const token = localStorage.getItem('jwt')
+		const token = JSON.parse(localStorage.getItem('jwt'))
 		console.log(token)
 		axios
-			.get(`/statistics/get-all`, {
+			.get(`/statistics/corporate/get-all`, {
 				headers: {
-					Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImV4cCI6MTY2MjM2NzkxNS4zNywiaWF0IjoxNjQ2NDcwMzE1fQ.0JroQYgg7SD10OjuP6DWmUK-Mi_vqnkMncEaa9vavlE`,
+					Authorization: `Bearer ${token}`,
 				},
 			})
 			.then(res => {
 				setStats(res.data.data)
 			})
 			.catch(err => console.log(err))
-			.finally(setTimeout(() => setLoader(false), 10000))
+			.finally(setLoader(false))
 	}
 
 	return (
@@ -49,15 +46,32 @@ const BusinessDashboardStats = () => {
 						variant="contained"
 						className="h-8"
 						onClick={() => dataLoader()}
+						style={{ backgroundColor: '#140035' }}
 					>
 						<ReloadOutlined size="large" />
 					</Button>
 				</div>
 				<div className="flex flex-wrap items-center justify-around">
-					<DashboardCard title={'Points'} stat={'3,43,212'} />
-					<DashboardCard title={'Total Products'} stat={'49'} />
-					<DashboardCard title={"Total QR's Generated"} stat={'34'} />
-					<DashboardCard title={"Total QR's Consumed"} stat={'30'} />
+					<DashboardCard
+						title={'Points'}
+						stat={stats.availablePoints}
+						icon={1}
+					/>
+					<DashboardCard
+						title={'Total Products'}
+						stat={stats.totalProducts}
+						icon={2}
+					/>
+					<DashboardCard
+						title={"Total QR's Generated"}
+						stat={stats.totalQRGenerated}
+						icon={3}
+					/>
+					<DashboardCard
+						title={"Total QR's Consumed"}
+						stat={stats.totalQRConsumed}
+						icon={4}
+					/>
 				</div>
 			</div>
 		</>
@@ -86,7 +100,18 @@ export const DashboardCard = props => {
 								'text-white p-3 text-center inline-flex items-center justify-center shadow-lg rounded-full bg-gradient-to-br from-[#4bc834] to-[#1e6100]'
 							}
 						>
-							<EyeOutlined size={''} />
+							{props.icon === 1 ? (
+								<UserOutlined style={{ fontSize: '40px' }} />
+							) : null}
+							{props.icon === 2 ? (
+								<DeploymentUnitOutlined style={{ fontSize: '40px' }} />
+							) : null}
+							{props.icon === 3 ? (
+								<QrcodeOutlined style={{ fontSize: '40px' }} />
+							) : null}
+							{props.icon === 4 ? (
+								<CameraOutlined style={{ fontSize: '40px' }} />
+							) : null}
 						</div>
 					</div>
 				</div>

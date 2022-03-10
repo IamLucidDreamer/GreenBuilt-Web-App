@@ -101,7 +101,7 @@ const SignUpOtp = () => {
 					<h1 className="text-xs text-purple-1 pt-3 text-center">
 						SignUp with Credentials
 					</h1>
-					{form === 3 || form === 3 ? (
+					{form === 1 || form === 2 ? (
 						<form className="" onSubmit={formik.handleSubmit}>
 							<div className="my-2 flex flex-col">
 								<label className="text-sm text-purple-1 py-1.5 font-semibold">
@@ -170,7 +170,7 @@ const SignUpOtp = () => {
 							OTPSuccess={onOTPSuccess}
 						/>
 					) : null}
-					{form === 1 ? (
+					{form === 4 ? (
 						<SignUp businessName={businessName} businessPhone={businessPhone} />
 					) : null}
 					<h1 className="text-xs text-purple-1 pt-2 text-center">

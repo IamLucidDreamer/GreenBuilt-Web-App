@@ -34,10 +34,11 @@ import axios from '../../../../helpers/http-helper'
 import { HCLayout } from './Common/Layout/HCLayout'
 import { innerTableActionBtnDesign } from './Common/InnerTableButtonDesign'
 import { Desc } from './Common/Layout/Desc'
+import CreateProduct from './CreateProduct'
 
 const Products = () => {
-	const token = localStorage.getItem('jwt')
-	console.log(token)
+	const token = JSON.parse(localStorage.getItem('jwt'))
+
 	const { TabPane } = Tabs
 
 	const { TextArea } = Input
@@ -45,10 +46,6 @@ const Products = () => {
 	const [product, setProduct] = useState([])
 
 	const [loading, setLoading] = useState(true)
-
-	const [pagination, setPagination] = useState(15)
-
-	const [paginationOffset, setPaginationOffset] = useState(0)
 
 	const [drawer, setDrawer] = useState(false)
 
@@ -60,11 +57,13 @@ const Products = () => {
 
 	const [title, setTitle] = useState('')
 
-	const [allBusiness, setAllBusiness] = useState([])
+	const [allProducts, setAllProducts] = useState([])
+
+	const [newProduct, setNewProduct] = useState(false)
 
 	const [body, setBody] = useState('')
 
-	const [showTrash, setShowTrash] = useState(false)
+	const [hideTrash, setHideTrash] = useState(true)
 
 	const [disableNotificationButton, setDisableNotificationButton] =
 		useState(true)
@@ -102,16 +101,46 @@ const Products = () => {
 	}
 
 	const requestsCaller = () => {
+		if (hideTrash) {
+			setLoading(true)
+			console.log('requestCaller')
+			axios
+				.get(
+					`/product/get-all/corporate`,
+
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
+				)
+				.then(res => {
+					const data = res.data.data
+					console.log(res)
+					data.map(item => {
+						item.key = item.id
+					})
+					setProduct(data)
+				})
+				.catch(err => {
+					console.log(err)
+				})
+				.finally(setLoading(false))
+		} else {
+			getTrash()
+		}
+	}
+
+	const getTrash = () => {
 		setLoading(true)
-		console.log('requestCaller')
-		console.log(token)
+		console.log('Get Trash')
 		axios
 			.get(
-				`/product/get-all/corporate?limit=${pagination}&offset=`,
+				`/product/get-all/corporate`,
 
 				{
 					headers: {
-						Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsImV4cCI6MTY2MjYyODc4Ni4wNzYsImlhdCI6MTY0NjczMTE4Nn0.6eD6bA99Hp0vr-QBp56HRWJlx702xqU__yMbHpCxGdM`,
+						Authorization: `Bearer ${token}`,
 					},
 				}
 			)
@@ -121,44 +150,28 @@ const Products = () => {
 				data.map(item => {
 					item.key = item.id
 				})
-				setProduct(data)
+
+				setProduct(data.filter(data => data.isTrash !== false))
 			})
 			.catch(err => {
 				console.log(err)
 			})
 			.finally(setLoading(false))
 	}
-	const getTrash = val => {
-		setShowTrash(val)
-		onTableFilterChange({
-			isBanned: val,
-			direction: undefined,
-			lastRecordId: undefined,
-		})
-		if (val) {
-			setFilterChange()
-		} else {
-			clearFilter('isBanned')
-		}
-	}
 
 	const getAllProducts = () => {
-		// axios
-		// 	.get('/user/get-all', {
-		// 		headers: {
-		// 			Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImV4cCI6MTY2MjE5MjAyOC42OTcsImlhdCI6MTY0NjI5NDQyOH0.O2Iz1ensiibs_rBCN3hj_ORoUjLff83FOR5IMs1IAt0`,
-		// 		},
-		// 	})
-		// 	.then(res => {
-		// 		console.log(res, 'Hello')
-		// 		res.data.user?.map(
-		// 			val => (val.isApproved = val?.isApproved ? 'Approved' : 'Pending')
-		// 		)
-		// 		setAllBusiness(res.data.user.filter(val => val.role === 2))
-		// 	})
-		// 	.catch(err => {
-		// 		console.log(err)
-		// 	})
+		axios
+			.get('/user/get-all', {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then(res => {
+				setAllProducts(res.data.user.filter(val => val.role === 2))
+			})
+			.catch(err => {
+				console.log(err)
+			})
 	}
 
 	useEffect(() => {
@@ -247,38 +260,18 @@ const Products = () => {
 
 	const actionBtn = [
 		<Row gutter={16} className="flex items-center">
-			<Col>
-				<div className="">
-					Per Page Records: &nbsp;
-					<Select
-						defaultValue="15"
-						style={{ width: 65 }}
-						onChange={value => {
-							console.log(value)
-							setPagination(value)
-							requestsCaller()
-						}}
-					>
-						<Select.Option value={15}>15</Select.Option>
-						<Select.Option value={20}>20</Select.Option>
-						<Select.Option value={25}>25</Select.Option>
-						<Select.Option value={30}>30</Select.Option>
-						<Select.Option value={40}>40</Select.Option>
-						<Select.Option value={50}>50</Select.Option>
-						<Select.Option value={100}>100</Select.Option>
-					</Select>
-				</div>
-			</Col>
-			<Col>
+			{/* <Col>
 				<div className="">
 					Trash: &nbsp;
 					<Switch
-						defaultChecked={showTrash}
-						onChange={getTrash}
+						onChange={() => {
+							setHideTrash(!hideTrash)
+							requestsCaller()
+						}}
 						style={{ backgroundColor: '#616161' }}
 					/>
 				</div>
-			</Col>
+			</Col> */}
 			<Col>
 				<Button
 					type="primary"
@@ -292,9 +285,9 @@ const Products = () => {
 				<Button className="w-44" type="primary" style={{ fontWeight: 'bold' }}>
 					<CSVLink
 						filename="BusinessUsers.csv"
-						data={allBusiness.map(product => {
-							const updatedBusiness = { ...product }
-							return updatedBusiness
+						data={allProducts.map(product => {
+							const updatedProduct = { ...product }
+							return updatedProduct
 						})}
 						onClick={() => {
 							message.success('The file is downloading')
@@ -305,6 +298,16 @@ const Products = () => {
 					</CSVLink>
 				</Button>
 			</Col>
+			<Col>
+				<Button
+					className="w-44"
+					type="primary"
+					style={{ fontWeight: 'bold' }}
+					onClick={() => setNewProduct(true)}
+				>
+					Add New
+				</Button>
+			</Col>
 		</Row>,
 	]
 
@@ -313,6 +316,7 @@ const Products = () => {
 		setEditData(record)
 	}
 
+	const newProductHide = () => setNewProduct(false)
 	// const onDelete = record => {
 	// 	Modal.confirm({
 	// 		title: 'Are you sure, you want to Ban this labour',
@@ -654,7 +658,7 @@ const Products = () => {
 							onDrawerOpen(record)
 						}}
 					/>
-					<EditOutlined
+					{/* <EditOutlined
 						title="Edit"
 						style={innerTableActionBtnDesign}
 						//onClick={() => onEdit(record)}
@@ -663,14 +667,14 @@ const Products = () => {
 						title="Ban"
 						style={innerTableActionBtnDesign}
 						//onClick={() => onDelete(record)}
-					/>
-					{showTrash ? (
+					/> */}
+					{/* {!hideTrash ? (
 						<DeleteOutlined
 							title="Delete Permanently"
 							style={innerTableActionBtnDesign}
 							//onClick={() => finalDelete(record)}
 						/>
-					) : null}
+					) : null} */}
 				</div>
 			),
 		},
@@ -687,13 +691,12 @@ const Products = () => {
 		setSelectedTempIds([])
 	}
 
-	const skillData = data.skills || []
 	return (
-		<HCLayout title="Business / Industry Users" actions={actionBtn}>
-			{showTrash ? (
+		<HCLayout title="Products" actions={actionBtn}>
+			{!hideTrash ? (
 				<Alert
 					type="warning"
-					message="Labour in trash will be removed automatically after 30 days"
+					message="Products in trash will be removed automatically after 30 days"
 					showIcon
 				/>
 			) : null}
@@ -701,41 +704,12 @@ const Products = () => {
 				usersData={product}
 				searchable={false}
 				differUserRows
-				pagination={false}
+				pagination={true}
 				loading={loading}
 				rowSelection={rowSelection}
 				columns={columns}
 			/>
-			<Row gutter={[8, 8]} className="p-5 bg-purple-1">
-				<Col className="flex ml-auto">
-					<Button
-						type="primary"
-						onClick={() => {
-							if (paginationOffset > 0) {
-								setPaginationOffset(paginationOffset - pagination)
-								console.log(paginationOffset)
-								requestsCaller()
-							}
-						}}
-						title="Prev"
-					>
-						Prev
-					</Button>
-				</Col>
-				<Col>
-					<Button
-						type="primary"
-						onClick={() => {
-							setPaginationOffset(paginationOffset + pagination)
-							console.log(paginationOffset)
-							requestsCaller()
-						}}
-						title="Next"
-					>
-						Next
-					</Button>
-				</Col>
-			</Row>
+			<div className="py-3 bg-purple-1"></div>
 			<Drawer
 				title={siderProps.title}
 				width="750px"
@@ -747,9 +721,9 @@ const Products = () => {
 					<TabPane tab="Business / Industry information" key="1">
 						<Row>
 							<Col span={12} lg={12} md={12} sm={32} xs={32}>
-								<Desc title="Company Name" content={data?.name} />
-								<Desc title="Phone Number" content={data?.phone} />
-								<Desc title="Email" content={data?.email} />
+								<Desc title="Name" content={data?.title} />
+								<Desc title="Packing Type" content={data?.packingType} />
+								<Desc title="Industry Type" content={data?.industryType} />
 								<Desc
 									title="Approval Status"
 									content={data?.isApproved ? 'Approved' : 'Not Approved'}
@@ -757,23 +731,9 @@ const Products = () => {
 							</Col>
 							<Col span={12} lg={12} md={12} sm={32} xs={32}>
 								<Desc title="Registered On" content={data?.createdAt} />
-								<Desc title="Eb Service Number" content={data?.ebServiceNo} />
-								<Desc title="Industry Type" content={data?.industryType} />
-								<Desc title="GSTIN" content={data?.gstin} />
-								{data.empStatus !== undefined ? (
-									<div>
-										<Desc
-											title="Mill Owner Name"
-											content={data.empStatus?.mill?.millOwner?.userInfo?.name}
-										/>
-										<Desc
-											title="Mill Owner Phone No."
-											content={data.empStatus?.mill?.millOwner?.userInfo?.phone}
-										/>
-									</div>
-								) : (
-									''
-								)}
+								<Desc title="UOM" content={data?.uom} />
+								<Desc title="Description" content={data?.description} />
+								<Desc title="Points" content={data?.points} />
 							</Col>
 
 							<Col span={32} className="p-3 mt-3">
@@ -880,6 +840,7 @@ const Products = () => {
 					</Form.Item>
 				</Form>
 			</Modal>
+			{newProduct ? <CreateProduct handleBack={newProductHide} /> : null}
 		</HCLayout>
 	)
 }

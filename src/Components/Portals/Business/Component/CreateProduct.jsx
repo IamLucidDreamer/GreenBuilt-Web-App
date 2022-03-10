@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import axios from '../../../../helpers/http-helper'
 
-function CreateProduct() {
+function CreateProduct(props) {
 	//Create Products Error With Points providing String in place of number
 	const formik = useFormik({
 		initialValues: {
@@ -11,6 +11,9 @@ function CreateProduct() {
 			description: '',
 			points: '',
 			photo: '',
+			industryType: '',
+			uom: '',
+			packingType: '',
 		},
 		validationSchema: Yup.object({
 			title: Yup.string().required('Required'),
@@ -42,8 +45,14 @@ function CreateProduct() {
 	}
 
 	return (
-		<div className="relative">
-			<h1 className="text-white text-center text-3xl font-bold">
+		<div className="fixed z-50 top-0 right-0 left-0 bottom-0 bg-purple-1 min-h-screen min-w-screen overflow-y-scroll">
+			<button
+				className="text-white p-2 text-base"
+				onClick={() => props.handleBack()}
+			>
+				Back
+			</button>
+			<h1 className="text-white text-center text-3xl font-bold pt-10">
 				Create New Product
 			</h1>
 			<div className="m-4 p-3 bg-purple-1 rounded-xl">
@@ -86,6 +95,45 @@ function CreateProduct() {
 							/>
 							{formik.touched.points && formik.errors.points ? (
 								<div>{formik.errors.points}</div>
+							) : null}
+						</div>
+						<div className="my-2 flex flex-col">
+							<label className="text-sm text-purple-1 py-1.5 font-semibold">
+								Packing Type
+							</label>
+							<input
+								placeholder="Packing Type"
+								className="p-1.5 rounded-lg bg-purple-1 bg-opacity-10 border-2 border-purple-1"
+								{...formik.getFieldProps('packingType')}
+							/>
+							{formik.touched.packingType && formik.errors.packingType ? (
+								<div>{formik.errors.packingType}</div>
+							) : null}
+						</div>
+						<div className="my-2 flex flex-col">
+							<label className="text-sm text-purple-1 py-1.5 font-semibold">
+								UOM
+							</label>
+							<input
+								placeholder="UOM"
+								className="p-1.5 rounded-lg bg-purple-1 bg-opacity-10 border-2 border-purple-1"
+								{...formik.getFieldProps('uom')}
+							/>
+							{formik.touched.uom && formik.errors.uom ? (
+								<div>{formik.errors.uom}</div>
+							) : null}
+						</div>
+						<div className="my-2 flex flex-col">
+							<label className="text-sm text-purple-1 py-1.5 font-semibold">
+								Industry Type
+							</label>
+							<input
+								placeholder="Industry Type"
+								className="p-1.5 rounded-lg bg-purple-1 bg-opacity-10 border-2 border-purple-1"
+								{...formik.getFieldProps('industryType')}
+							/>
+							{formik.touched.industryType && formik.errors.industryType ? (
+								<div>{formik.errors.industryType}</div>
 							) : null}
 						</div>
 						<div className="my-2 flex flex-col">

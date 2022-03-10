@@ -3,6 +3,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import axios from '../../../../helpers/http-helper'
 import QRCode from 'react-qr-code'
+import { toast } from 'react-toastify'
 
 function GenerateQr() {
 	const [cols, setCols] = useState([])
@@ -52,11 +53,12 @@ function GenerateQr() {
 			})
 			.catch(err => {
 				console.log(err)
+				toast.error(err.response.data.error)
 			})
 	}
 
 	return (
-		<div class="relative rounded-lg overflow-hidden shadow-lg bg-purple-1">
+		<div class="relative rounded-lg overflow-hidden shadow-lg bg-purple-1 m-6">
 			{/* Generate Qr */}
 			<div className="m-4 p-4 bg-white">
 				<h1>Generate QR</h1>

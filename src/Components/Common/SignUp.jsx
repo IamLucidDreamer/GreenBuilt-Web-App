@@ -78,7 +78,7 @@ const SignUp = props => {
 				Hello, <span className="text-base font-bold">{props.businessName}</span>
 			</h1>
 			<h1 className="text-base font-semibold">
-				OTP Sent to{' '}
+				Using the Phone Number
 				<span className="text-base font-bold">{props.businessPhone}</span>
 				<button
 					className="text-sm px-2 hover:underline font-bold text-purple-1"

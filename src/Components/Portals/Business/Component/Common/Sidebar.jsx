@@ -1,13 +1,19 @@
 import React, { useState } from 'react'
 import Logo from '../../../../../assets/logoGreenbuilt.png'
-
 import { Link } from 'react-router-dom'
+import {
+	AppstoreOutlined,
+	QrcodeOutlined,
+	DeploymentUnitOutlined,
+	BarsOutlined,
+	FileTextOutlined,
+} from '@ant-design/icons'
 
 function Sidebar() {
 	const [collapseShow, setCollapseShow] = React.useState('hidden')
 	return (
 		<>
-			<nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-purple-1 flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
+			<nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-purple-1 flex flex-wrap items-center justify-between relative md:w-64 z-40 py-4 px-6">
 				<div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
 					{/* Toggler */}
 					<button
@@ -23,7 +29,7 @@ function Sidebar() {
 							stroke-width="2"
 							class="w-4 h-4 ml-1"
 							viewBox="0 0 24 24"
-							className={`w-7 h-7 text-red-900 rotate-180`}
+							className={`w-7 h-7 text-red-600 rotate-180`}
 						>
 							<path d="M5 12h14M12 5l7 7-7 7"></path>
 						</svg>
@@ -80,91 +86,60 @@ function Sidebar() {
 						<ul className="md:flex-col md:min-w-full flex flex-col list-none">
 							<li className="items-center">
 								<Link
-									className={
-										'text-xs uppercase py-3 font-bold block text-white ' +
-										(window.location.href.indexOf('/business//dashboard') !== -1
-											? 'text-lightBlue-500 hover:text-white'
-											: 'text-blueGray-700 hover:text-blueGray-500')
-									}
+									className="text-xs uppercase py-3 font-bold flex text-white hover:text-blue-600 items-center"
 									to="/business/dashboard"
 								>
-									<i
-										className={
-											'fas fa-tv mr-2 text-sm ' +
-											(window.location.href.indexOf('/business/dashboard') !==
-											-1
-												? 'opacity-75'
-												: 'text-blueGray-300')
-										}
-									></i>{' '}
+									<AppstoreOutlined
+										style={{ fontSize: '20px', paddingRight: '10px' }}
+									/>
 									Dashboard
 								</Link>
 							</li>
 
 							<li className="items-center">
 								<Link
-									className={
-										'text-xs uppercase py-3 font-bold block text-white ' +
-										(window.location.href.indexOf('/business/product') !== -1
-											? 'text-lightBlue-500 hover:text-lightBlue-600'
-											: 'text-blueGray-700 hover:text-blueGray-500')
-									}
+									className="text-xs uppercase py-3 font-bold flex text-white hover:text-blue-600 items-center"
 									to="/business/product"
 								>
-									<i
-										className={
-											'fas fa-tools mr-2 text-sm ' +
-											(window.location.href.indexOf('/business/products') !== -1
-												? 'opacity-75'
-												: 'text-blueGray-300')
-										}
-									></i>{' '}
+									<DeploymentUnitOutlined
+										style={{ fontSize: '20px', paddingRight: '10px' }}
+									/>
 									Products
 								</Link>
 							</li>
 
 							<li className="items-center">
 								<Link
-									className={
-										'text-xs uppercase py-3 font-bold block text-white ' +
-										(window.location.href.indexOf('/business/generateqr') !== -1
-											? 'text-lightBlue-500 hover:text-lightBlue-600'
-											: 'text-blueGray-700 hover:text-blueGray-500')
-									}
+									className="text-xs uppercase py-3 font-bold flex text-white hover:text-blue-600 items-center"
 									to="/business/generateqr"
 								>
-									<i
-										className={
-											'fas fa-table mr-2 text-sm ' +
-											(window.location.href.indexOf('/business/generateqr') !==
-											-1
-												? 'opacity-75'
-												: 'text-blueGray-300')
-										}
-									></i>{' '}
+									<QrcodeOutlined
+										style={{ fontSize: '20px', paddingRight: '10px' }}
+									/>
 									Generate QR
 								</Link>
 							</li>
 
 							<li className="items-center">
 								<Link
-									className={
-										'text-xs uppercase py-3 font-bold block text-white ' +
-										(window.location.href.indexOf('/business/history') !== -1
-											? 'text-lightBlue-500 hover:text-lightBlue-600'
-											: 'text-blueGray-700 hover:text-blueGray-500')
-									}
+									className="text-xs uppercase py-3 font-bold flex text-white hover:text-blue-600 items-center"
 									to="/business/history"
 								>
-									<i
-										className={
-											'fas fa-map-marked mr-2 text-sm ' +
-											(window.location.href.indexOf('/business/history') !== -1
-												? 'opacity-75'
-												: 'text-blueGray-300')
-										}
-									></i>{' '}
-									history
+									<FileTextOutlined
+										style={{ fontSize: '20px', paddingRight: '10px' }}
+									/>
+									Document Upload
+								</Link>
+							</li>
+							<li className="items-center">
+								<Link
+									className="text-xs uppercase py-3 font-bold flex text-white hover:text-blue-600 items-center"
+									to="/business/history"
+								>
+									<BarsOutlined
+										style={{ fontSize: '20px', paddingRight: '10px' }}
+									/>
+									History
 								</Link>
 							</li>
 						</ul>

@@ -44,7 +44,7 @@ const Login = () => {
 	})
 	return (
 		<>
-			<div className="min-h-screen bg-purple-1 flex items-center justify-center bg-log bg-center bg-no-repeat bg-cover">
+			<div className="min-h-screen  bg-gradient-to-br from-[#017f02] to-[#06788f] flex items-center justify-center">
 				<div className="w-1/3 bg-white rounded-lg p-4">
 					<img src={Logo} className="w-9/12 mx-auto" alt="" />
 
