@@ -14,6 +14,7 @@ import {
 	Alert,
 	Switch,
 	Tooltip,
+	Select,
 } from 'antd'
 import {
 	EyeOutlined,
@@ -33,15 +34,16 @@ import axios from '../../../../helpers/http-helper'
 import { HCLayout } from './Common/Layout/HCLayout'
 import { innerTableActionBtnDesign } from './Common/InnerTableButtonDesign'
 import { Desc } from './Common/Layout/Desc'
+import CreateProduct from './CreateProduct'
 
-const EndUsers = () => {
+const HistoryTable = () => {
 	const token = JSON.parse(localStorage.getItem('jwt'))
 
 	const { TabPane } = Tabs
 
 	const { TextArea } = Input
 
-	const [endUsers, setEndUsers] = useState([])
+	const [product, setProduct] = useState([])
 
 	const [loading, setLoading] = useState(true)
 
@@ -55,11 +57,13 @@ const EndUsers = () => {
 
 	const [title, setTitle] = useState('')
 
-	const [allEndUsers, setAllEndUsers] = useState([])
+	const [allProducts, setAllProducts] = useState([])
+
+	const [newProduct, setNewProduct] = useState(false)
 
 	const [body, setBody] = useState('')
 
-	const [showTrash, setShowTrash] = useState(false)
+	const [hideTrash, setHideTrash] = useState(true)
 
 	const [disableNotificationButton, setDisableNotificationButton] =
 		useState(true)
@@ -86,7 +90,10 @@ const EndUsers = () => {
 			})
 			.then(res => {
 				console.log(res)
-				setEndUsers(res.data.user.filter(val => val.role === 1))
+				res.data.user?.map(
+					val => (val.isApproved = val?.isApproved ? 'Approved' : 'Pending')
+				)
+				setProduct(res.data.user.filter(val => val.role === 2))
 			})
 			.catch(err => {
 				console.log(err)
@@ -94,43 +101,65 @@ const EndUsers = () => {
 	}
 
 	const requestsCaller = () => {
+		if (hideTrash) {
+			setLoading(true)
+			console.log('requestCaller')
+			axios
+				.get(
+					`/product/get-all/corporate`,
+
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
+				)
+				.then(res => {
+					const data = res.data.data
+					console.log(res)
+					data.map(item => {
+						item.key = item.id
+					})
+					setProduct(data)
+				})
+				.catch(err => {
+					console.log(err)
+				})
+				.finally(setLoading(false))
+		} else {
+			getTrash()
+		}
+	}
+
+	const getTrash = () => {
 		setLoading(true)
-		console.log('requestCaller')
-		console.log(token)
+		console.log('Get Trash')
 		axios
-			.get('/user/get-all', {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			})
+			.get(
+				`/product/get-all/corporate`,
+
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			)
 			.then(res => {
-				const data = res.data.user
+				const data = res.data.data
 				console.log(res)
 				data.map(item => {
 					item.key = item.id
 				})
-				setEndUsers(data.filter(val => val.role === 1))
+
+				setProduct(data.filter(data => data.isTrash !== false))
 			})
 			.catch(err => {
 				console.log(err)
 			})
 			.finally(setLoading(false))
 	}
-	const getTrash = val => {
-		setShowTrash(val)
-		onTableFilterChange({
-			isBanned: val,
-			direction: undefined,
-			lastRecordId: undefined,
-		})
-		if (val) {
-			setFilterChange()
-		} else {
-			clearFilter('isBanned')
-		}
-	}
 
-	const getAllEndUsers = () => {
+	const getAllProducts = () => {
 		axios
 			.get('/user/get-all', {
 				headers: {
@@ -138,8 +167,7 @@ const EndUsers = () => {
 				},
 			})
 			.then(res => {
-				console.log(res, 'Hello')
-				setAllEndUsers(res.data.user.filter(val => val.role === 2))
+				setAllProducts(res.data.user.filter(val => val.role === 2))
 			})
 			.catch(err => {
 				console.log(err)
@@ -148,7 +176,7 @@ const EndUsers = () => {
 
 	useEffect(() => {
 		requestsCaller()
-		getAllEndUsers()
+		getAllProducts()
 	}, [])
 
 	useEffect(() => {
@@ -236,8 +264,10 @@ const EndUsers = () => {
 				<div className="">
 					Trash: &nbsp;
 					<Switch
-						defaultChecked={showTrash}
-						onChange={getTrash}
+						onChange={() => {
+							setHideTrash(!hideTrash)
+							requestsCaller()
+						}}
 						style={{ backgroundColor: '#616161' }}
 					/>
 				</div>
@@ -254,10 +284,10 @@ const EndUsers = () => {
 			<Col>
 				<Button className="w-44" type="primary" style={{ fontWeight: 'bold' }}>
 					<CSVLink
-						filename="EndUsers.csv"
-						data={allEndUsers.map(endUser => {
-							const updatedEndUsers = { ...endUser }
-							return updatedEndUsers
+						filename="BusinessUsers.csv"
+						data={allProducts.map(product => {
+							const updatedProduct = { ...product }
+							return updatedProduct
 						})}
 						onClick={() => {
 							message.success('The file is downloading')
@@ -268,6 +298,16 @@ const EndUsers = () => {
 					</CSVLink>
 				</Button>
 			</Col>
+			<Col>
+				<Button
+					className="w-44"
+					type="primary"
+					style={{ fontWeight: 'bold' }}
+					onClick={() => setNewProduct(true)}
+				>
+					Add New
+				</Button>
+			</Col>
 		</Row>,
 	]
 
@@ -276,6 +316,7 @@ const EndUsers = () => {
 		setEditData(record)
 	}
 
+	const newProductHide = () => setNewProduct(false)
 	// const onDelete = record => {
 	// 	Modal.confirm({
 	// 		title: 'Are you sure, you want to Ban this labour',
@@ -380,9 +421,9 @@ const EndUsers = () => {
 
 	const columns = [
 		{
-			key: 'name',
-			title: 'Name',
-			render: data => data.name,
+			key: 'title',
+			title: 'Title',
+			render: data => data.title,
 			filterDropdown: () => (
 				<Row className="p-3 shadow-lg">
 					<Col>
@@ -422,9 +463,9 @@ const EndUsers = () => {
 			filterIcon: () => <SearchOutlined style={{ fontSize: 18 }} />,
 		},
 		{
-			key: 'email',
-			title: 'Email',
-			render: data => data.email,
+			key: 'industryType',
+			title: 'Industry Type',
+			render: data => data.industryType,
 			filterDropdown: () => (
 				<Row className="p-3 shadow-lg">
 					<Col>
@@ -464,9 +505,9 @@ const EndUsers = () => {
 			filterIcon: () => <SearchOutlined style={{ fontSize: 18 }} />,
 		},
 		{
-			key: 'phoneNumber',
-			title: 'Phone',
-			render: data => data.phoneNumber,
+			key: 'packingType',
+			title: 'Packing Type',
+			render: data => data.packingType,
 			filterDropdown: () => (
 				<Row className="p-3 shadow-lg">
 					<Col>
@@ -506,19 +547,24 @@ const EndUsers = () => {
 			filterIcon: () => <SearchOutlined style={{ fontSize: 18 }} />,
 		},
 		{
-			key: 'age',
-			title: 'Age',
-			render: data => data.age,
+			key: 'uom',
+			title: 'UOM',
+			render: data => data.uom,
 		},
 		{
-			key: 'gender',
-			title: 'Gender',
-			render: data => (data.gender === 1 ? 'Male' : 'Female'),
+			key: 'description',
+			title: 'Description',
+			render: data => data.description,
 		},
 		{
 			key: 'points',
 			title: 'Points',
 			render: data => data.points,
+		},
+		{
+			key: 'isApproved',
+			title: 'Status',
+			render: data => (data.isApproved ? 'Approved' : 'Pending'),
 		},
 		// {
 		// 	key: 'dateOfBirth',
@@ -621,8 +667,8 @@ const EndUsers = () => {
 						title="Ban"
 						style={innerTableActionBtnDesign}
 						//onClick={() => onDelete(record)}
-					/>
-					{showTrash ? (
+					/> */}
+					{/* {!hideTrash ? (
 						<DeleteOutlined
 							title="Delete Permanently"
 							style={innerTableActionBtnDesign}
@@ -645,18 +691,17 @@ const EndUsers = () => {
 		setSelectedTempIds([])
 	}
 
-	const skillData = data.skills || []
 	return (
-		<HCLayout title="End Users" actions={actionBtn}>
-			{showTrash ? (
+		<HCLayout title="Products" actions={actionBtn}>
+			{!hideTrash ? (
 				<Alert
 					type="warning"
-					message="Labour in trash will be removed automatically after 30 days"
+					message="Products in trash will be removed automatically after 30 days"
 					showIcon
 				/>
 			) : null}
 			<DataTable
-				usersData={endUsers}
+				usersData={product}
 				searchable={false}
 				differUserRows
 				pagination={true}
@@ -676,9 +721,9 @@ const EndUsers = () => {
 					<TabPane tab="Business / Industry information" key="1">
 						<Row>
 							<Col span={12} lg={12} md={12} sm={32} xs={32}>
-								<Desc title="Company Name" content={data?.name} />
-								<Desc title="Phone Number" content={data?.phone} />
-								<Desc title="Email" content={data?.email} />
+								<Desc title="Name" content={data?.title} />
+								<Desc title="Packing Type" content={data?.packingType} />
+								<Desc title="Industry Type" content={data?.industryType} />
 								<Desc
 									title="Approval Status"
 									content={data?.isApproved ? 'Approved' : 'Not Approved'}
@@ -686,23 +731,9 @@ const EndUsers = () => {
 							</Col>
 							<Col span={12} lg={12} md={12} sm={32} xs={32}>
 								<Desc title="Registered On" content={data?.createdAt} />
-								<Desc title="Eb Service Number" content={data?.ebServiceNo} />
-								<Desc title="Industry Type" content={data?.industryType} />
-								<Desc title="GSTIN" content={data?.gstin} />
-								{data.empStatus !== undefined ? (
-									<div>
-										<Desc
-											title="Mill Owner Name"
-											content={data.empStatus?.mill?.millOwner?.userInfo?.name}
-										/>
-										<Desc
-											title="Mill Owner Phone No."
-											content={data.empStatus?.mill?.millOwner?.userInfo?.phone}
-										/>
-									</div>
-								) : (
-									''
-								)}
+								<Desc title="UOM" content={data?.uom} />
+								<Desc title="Description" content={data?.description} />
+								<Desc title="Points" content={data?.points} />
 							</Col>
 
 							<Col span={32} className="p-3 mt-3">
@@ -809,8 +840,9 @@ const EndUsers = () => {
 					</Form.Item>
 				</Form>
 			</Modal>
+			{newProduct ? <CreateProduct handleBack={newProductHide} /> : null}
 		</HCLayout>
 	)
 }
 
-export { EndUsers }
+export default HistoryTable

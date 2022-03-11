@@ -33,9 +33,10 @@ import axios from '../../../../helpers/http-helper'
 import { HCLayout } from './Common/Layout/HCLayout'
 import { innerTableActionBtnDesign } from './Common/InnerTableButtonDesign'
 import { Desc } from './Common/Layout/Desc'
+import { toast } from 'react-toastify'
 
 const ApproveBusiness = () => {
-	const token = localStorage.getItem('jwt')
+	const token = JSON.parse(localStorage.getItem('jwt'))
 
 	const { TabPane } = Tabs
 
@@ -89,7 +90,7 @@ const ApproveBusiness = () => {
 		axios
 			.get('/user/get-all', {
 				headers: {
-					Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImV4cCI6MTY2MjE5MjAyOC42OTcsImlhdCI6MTY0NjI5NDQyOH0.O2Iz1ensiibs_rBCN3hj_ORoUjLff83FOR5IMs1IAt0`,
+					Authorization: `Bearer ${token}`,
 				},
 			})
 			.then(res => {
@@ -107,11 +108,10 @@ const ApproveBusiness = () => {
 	const requestsCaller = () => {
 		setLoading(true)
 		console.log('requestCaller')
-		console.log(token)
 		axios
 			.get('/user/get-all', {
 				headers: {
-					Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImV4cCI6MTY2MjE5MjAyOC42OTcsImlhdCI6MTY0NjI5NDQyOH0.O2Iz1ensiibs_rBCN3hj_ORoUjLff83FOR5IMs1IAt0`,
+					Authorization: `Bearer ${token}`,
 				},
 			})
 			.then(res => {
@@ -266,12 +266,12 @@ const ApproveBusiness = () => {
 
 	const actionBtn = [
 		<Row gutter={16} className="flex items-center">
-			<Col>
+			{/* <Col>
 				<div className="">
 					Trash: &nbsp;
 					<Switch defaultChecked={showTrash} onChange={getTrash} />
 				</div>
-			</Col>
+			</Col> */}
 			<Col>
 				<Button
 					type="primary"
@@ -281,7 +281,7 @@ const ApproveBusiness = () => {
 					<ReloadOutlined />
 				</Button>
 			</Col>
-			<Col>
+			{/* <Col>
 				<Button
 					type="primary"
 					className="flex items-center"
@@ -292,7 +292,7 @@ const ApproveBusiness = () => {
 				>
 					<BellOutlined /> Add New
 				</Button>
-			</Col>
+			</Col> */}
 			{/* <Col>
 				{userContext.access['download'][0] ? (
 					<Button className="w-44" type="primary" style={{ border: 'none' }}>
@@ -357,6 +357,24 @@ const ApproveBusiness = () => {
 	const onEdit = record => {
 		setEditModalVisiblity(true)
 		setEditData(record)
+	}
+
+	const onApprove = record => {
+		axios
+			.post(
+				`/user/approve/${record.id}`,
+				{},
+				{
+					headers: { Authorization: `Bearer ${token}` },
+				}
+			)
+			.then(res => {
+				toast.success(res.data.message)
+				requestsCaller()
+			})
+			.catch(err => {
+				toast.error(err.response.data.error)
+			})
 	}
 
 	// const onDelete = record => {
@@ -695,7 +713,12 @@ const ApproveBusiness = () => {
 							onDrawerOpen(record)
 						}}
 					/>
-					<EditOutlined
+					<CheckOutlined
+						title="Ban"
+						style={innerTableActionBtnDesign}
+						onClick={() => onApprove(record)}
+					/>
+					{/* <EditOutlined
 						title="Edit"
 						style={innerTableActionBtnDesign}
 						//onClick={() => onEdit(record)}
@@ -705,18 +728,14 @@ const ApproveBusiness = () => {
 						style={innerTableActionBtnDesign}
 						//onClick={() => onDelete(record)}
 					/>
-					<CheckOutlined
-						title="Ban"
-						style={innerTableActionBtnDesign}
-						//onClick={() => onDelete(record)}
-					/>
+					
 					{showTrash ? (
 						<DeleteOutlined
 							title="Delete Permanently"
 							style={innerTableActionBtnDesign}
 							//onClick={() => finalDelete(record)}
 						/>
-					) : null}
+					) : null} */}
 				</div>
 			),
 		},
@@ -748,33 +767,12 @@ const ApproveBusiness = () => {
 					usersData={business}
 					searchable={false}
 					differUserRows
-					pagination={false}
+					pagination={true}
 					loading={loading}
 					rowSelection={rowSelection}
 					columns={columns}
 				/>
-				<Row gutter={[8, 8]} className="p-5">
-					<Col offset={21}>
-						<Button
-							type="primary"
-							onClick={() => paginationHandler('b', business[0].id)}
-							title="Prev"
-						>
-							Prev
-						</Button>
-					</Col>
-					<Col>
-						<Button
-							type="primary"
-							onClick={() =>
-								paginationHandler('f', business[business.length - 1].id)
-							}
-							title="Next"
-						>
-							Next
-						</Button>
-					</Col>
-				</Row>
+				<div className="py-3 bg-purple-1"></div>
 				<Drawer
 					title={siderProps.title}
 					width="750px"

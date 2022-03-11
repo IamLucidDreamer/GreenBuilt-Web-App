@@ -238,7 +238,7 @@ const BusinessUsers = () => {
 
 	const actionBtn = [
 		<Row gutter={16} className="flex items-center">
-			<Col>
+			{/* <Col>
 				<div className="">
 					Trash: &nbsp;
 					<Switch
@@ -247,7 +247,7 @@ const BusinessUsers = () => {
 						style={{ backgroundColor: '#616161' }}
 					/>
 				</div>
-			</Col>
+			</Col> */}
 			<Col>
 				<Button
 					type="primary"
@@ -623,7 +623,7 @@ const BusinessUsers = () => {
 							onDrawerOpen(record)
 						}}
 					/>
-					<EditOutlined
+					{/* <EditOutlined
 						title="Edit"
 						style={innerTableActionBtnDesign}
 						//onClick={() => onEdit(record)}
@@ -639,7 +639,7 @@ const BusinessUsers = () => {
 							style={innerTableActionBtnDesign}
 							//onClick={() => finalDelete(record)}
 						/>
-					) : null}
+					) : null} */}
 				</div>
 			),
 		},

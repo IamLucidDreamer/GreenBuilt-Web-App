@@ -7,48 +7,66 @@ import HeaderStats from '../Component/Common/HeaderStats'
 import { ApproveBusiness } from '../Component/ApproveBusiness'
 
 import Button from '@mui/material/Button'
-import { EndUsers } from '../Component/EndUsers'
+import { AlignCenterOutlined, LeftOutlined } from '@ant-design/icons'
 
 const Approvals = () => {
-	const [product, setProduct] = useState(false)
-	return (
-		<>
-			<Sidebar />
-			<div className="relative md:ml-64 bg-blueGray-100">
-				{/* Header */}
-				<div className="relative bg-slate-600 md:pt-32 pb-32 pt-12">
-					<div className="px-4 md:px-10 mx-auto w-full">
-						<AdminTopBar
-							pageName={
-								product
-									? 'Dashboard / Product Approval'
-									: 'Dashboard / Business Approval'
-							}
-						/>
-					</div>
-				</div>
+	const [show, setShow] = useState(false)
+	const [approve, setApprove] = useState(false)
 
-				<div className="px-4 md:px-10 mx-auto w-full -m-44 z-50">
-					<div className="flex items-center justify-evenly p-4">
-						<Button
-							variant="contained"
-							size="large"
-							onClick={() => setProduct(false)}
-						>
-							Business Users
-						</Button>
-						<Button
-							variant="contained"
-							size="large"
-							onClick={() => setProduct(true)}
-						>
-							End Users
-						</Button>
-					</div>
-					{product ? <ApproveProduct /> : <ApproveBusiness />}
+	return (
+		<div className="bg-gray-100 min-h-screen">
+			<button
+				className="fixed top-5 left-2 z-50 w-10 h-10 bg-purple-1"
+				onClick={() => setShow(!show)}
+			>
+				{show ? (
+					<LeftOutlined
+						style={{ fontSize: '25px', color: '#fff', paddingTop: '25px' }}
+					/>
+				) : (
+					<AlignCenterOutlined style={{ fontSize: '25px', color: '#fff' }} />
+				)}
+			</button>
+			{show ? (
+				<div className="origin-center translate-x-100 duration-700 transition duration-150 ease-out">
+					<Sidebar />
 				</div>
+			) : null}
+			<div className="relative">
+				{/* Header */}
+				<div className="relative bg-slate-600 md:pt-28 pb-32 pt-12">
+					<div className="px-4 md:px-10 mx-auto w-full">
+						<AdminTopBar pageName="Dashboard / History" />
+						<div className="flex justify-around">
+							<Button
+								variant="contained"
+								size="large"
+								onClick={() => setApprove(true)}
+								style={{
+									backgroundColor: '#140035',
+									width: '200px',
+								}}
+							>
+								Approve Business
+							</Button>
+							<Button
+								variant="contained"
+								size="large"
+								onClick={() => setApprove(false)}
+								style={{
+									backgroundColor: '#140035',
+									width: '200px',
+								}}
+							>
+								Approve Products
+							</Button>
+						</div>
+					</div>
+				</div>
+				<div className="mx-auto w-full -m-20 z-50"></div>
+				{approve ? <ApproveBusiness /> : <ApproveProduct />}
 			</div>
-		</>
+		</div>
 	)
 }
 
