@@ -34,9 +34,10 @@ import { HCLayout } from './Common/Layout/HCLayout'
 import { innerTableActionBtnDesign } from './Common/InnerTableButtonDesign'
 import { Desc } from './Common/Layout/Desc'
 import { AddNewAssestForm } from './AddNewAssetForm'
+import { toast } from 'react-toastify'
 
 const AssetMasterTable = () => {
-	const token = localStorage.getItem('jwt')
+	const token = JSON.parse(localStorage.getItem('jwt'))
 
 	const { TabPane } = Tabs
 
@@ -82,7 +83,7 @@ const AssetMasterTable = () => {
 		axios
 			.get('/user/get-all', {
 				headers: {
-					Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImV4cCI6MTY2MjE5MjAyOC42OTcsImlhdCI6MTY0NjI5NDQyOH0.O2Iz1ensiibs_rBCN3hj_ORoUjLff83FOR5IMs1IAt0`,
+					Authorization: `Bearer ${token}`,
 				},
 			})
 			.then(res => {
@@ -101,7 +102,7 @@ const AssetMasterTable = () => {
 		axios
 			.get('/asset/get-all?limit=10', {
 				headers: {
-					Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImV4cCI6MTY2MjE5MjAyOC42OTcsImlhdCI6MTY0NjI5NDQyOH0.O2Iz1ensiibs_rBCN3hj_ORoUjLff83FOR5IMs1IAt0`,
+					Authorization: `Bearer ${token}`,
 				},
 			})
 			.then(res => {
@@ -256,12 +257,12 @@ const AssetMasterTable = () => {
 
 	const actionBtn = [
 		<Row gutter={16} className="flex items-center">
-			<Col>
+			{/* <Col>
 				<div className="">
 					Trash: &nbsp;
 					<Switch defaultChecked={showTrash} onChange={getTrash} />
 				</div>
-			</Col>
+			</Col> */}
 			<Col>
 				<Button
 					type="primary"
@@ -348,35 +349,30 @@ const AssetMasterTable = () => {
 		setEditData(record)
 	}
 
-	// const onDelete = record => {
-	// 	Modal.confirm({
-	// 		title: 'Are you sure, you want to Ban this labour',
-	// 		okText: 'Yes, Ban',
-	// 		onOk: () => {
-	// 			setLoading(true)
-	// 			request(`/api/app-user?userId=${record.userId}`, 'DELETE')
-	// 				.then(async () => {
-	// 					setLabour(
-	// 						labour.map(labour =>
-	// 							labour.id === record.id
-	// 								? {
-	// 										...labour,
-	// 										userInfo: { ...labour.userInfo, isBanned: true },
-	// 								  }
-	// 								: labour
-	// 						)
-	// 					)
+	const newAssetHide = () => setShowForm(false)
 
-	// 					setBannedLabours(bannedLabours + 1)
-	// 					setLoading(false)
-	// 				})
-	// 				.catch(err => {
-	// 					setLoading(false)
-	// 					throw err
-	// 				})
-	// 		},
-	// 	})
-	// }
+	const onDelete = record => {
+		Modal.confirm({
+			title: 'Are you sure, you want to Delete this Asset!',
+			okText: 'Yes, Delete',
+			onOk: () => {
+				setLoading(true)
+				axios
+					.delete(`/asset/delete/${record.assetId}`, {
+						headers: { Authorization: `Bearer ${token}` },
+					})
+					.then(res => {
+						toast.success(res.data.message)
+						requestsCaller()
+						setLoading(false)
+					})
+					.catch(err => {
+						setLoading(false)
+						toast.error(err.response.data.error)
+					})
+			},
+		})
+	}
 
 	// const onUnban = record => {
 	// 	Modal.confirm({
@@ -704,23 +700,23 @@ const AssetMasterTable = () => {
 							onDrawerOpen(record)
 						}}
 					/>
-					<EditOutlined
+					{/* <EditOutlined
 						title="Edit"
 						style={innerTableActionBtnDesign}
 						//onClick={() => onEdit(record)}
-					/>
+					/> */}
 					<DeleteOutlined
 						title="Ban"
 						style={innerTableActionBtnDesign}
-						//onClick={() => onDelete(record)}
+						onClick={() => onDelete(record)}
 					/>
-					{showTrash ? (
+					{/* {showTrash ? (
 						<DeleteOutlined
 							title="Delete Permanently"
 							style={innerTableActionBtnDesign}
 							//onClick={() => finalDelete(record)}
 						/>
-					) : null}
+					) : null} */}
 				</div>
 			),
 		},
@@ -753,32 +749,13 @@ const AssetMasterTable = () => {
 						usersData={asset}
 						searchable={false}
 						differUserRows
-						pagination={false}
+						pagination={true}
 						loading={loading}
 						rowSelection={rowSelection}
 						columns={columns}
 					/>
 				</div>
-				<Row gutter={[8, 8]} className="p-5">
-					<Col offset={21}>
-						<Button
-							type="primary"
-							onClick={() => paginationHandler('b', asset[0].id)}
-							title="Prev"
-						>
-							Prev
-						</Button>
-					</Col>
-					<Col>
-						<Button
-							type="primary"
-							onClick={() => paginationHandler('f', asset[asset.length - 1].id)}
-							title="Next"
-						>
-							Next
-						</Button>
-					</Col>
-				</Row>
+				<div className="py-3 bg-purple-1"></div>
 				<Drawer
 					title={siderProps.title}
 					width="750px"
@@ -790,37 +767,19 @@ const AssetMasterTable = () => {
 						<TabPane tab="Business / Industry information" key="1">
 							<Row>
 								<Col span={12} lg={12} md={12} sm={32} xs={32}>
-									<Desc title="Company Name" content={data?.name} />
-									<Desc title="Phone Number" content={data?.phone} />
-									<Desc title="Email" content={data?.email} />
-									<Desc
-										title="Approval Status"
-										content={data?.isApproved ? 'Approved' : 'Not Approved'}
-									/>
+									<Desc title="Name" content={data?.name} />
+									<Desc title="Source Type" content={data?.sourceType} />
+									<Desc title="Service Number" content={data?.serviceNo} />
+									<Desc title="Make" content={data?.make} />
+									<Desc title="Model" content={data?.model} />
+									<Desc title="Capacity" content={data?.capacity} />
 								</Col>
 								<Col span={12} lg={12} md={12} sm={32} xs={32}>
 									<Desc title="Registered On" content={data?.createdAt} />
-									<Desc title="Eb Service Number" content={data?.ebServiceNo} />
-									<Desc title="Industry Type" content={data?.industryType} />
-									<Desc title="GSTIN" content={data?.gstin} />
-									{data.empStatus !== undefined ? (
-										<div>
-											<Desc
-												title="Mill Owner Name"
-												content={
-													data.empStatus?.mill?.millOwner?.userInfo?.name
-												}
-											/>
-											<Desc
-												title="Mill Owner Phone No."
-												content={
-													data.empStatus?.mill?.millOwner?.userInfo?.phone
-												}
-											/>
-										</div>
-									) : (
-										''
-									)}
+									<Desc title="EDC" content={data?.edc} />
+									<Desc title="Sub Station" content={data?.substation} />
+									<Desc title="Longitude" content={data?.longitude} />
+									<Desc title="Latitude" content={data?.latitude} />
 								</Col>
 
 								<Col span={32} className="p-3 mt-3">
@@ -929,7 +888,7 @@ const AssetMasterTable = () => {
 					</Form>
 				</Modal>
 			</HCLayout>
-			{showForm ? <AddNewAssestForm /> : null}
+			{showForm ? <AddNewAssestForm handleBack={newAssetHide} /> : null}
 		</>
 	)
 }

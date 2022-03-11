@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import axios from '../../../../helpers/http-helper'
 import { toast } from 'react-toastify'
 
-export const AddNewAssestForm = () => {
+export const AddNewAssestForm = props => {
 	const token = localStorage.getItem('jwt')
 
 	const handleNewAsset = value => {
@@ -82,7 +82,13 @@ export const AddNewAssestForm = () => {
 	})
 
 	return (
-		<div className="fixed top-0 w-10/12 z-50">
+		<div className="fixed z-50 top-0 right-0 left-0 bottom-0 bg-purple-1 min-h-screen min-w-screen overflow-y-scroll">
+			<button
+				className="text-white p-2 text-base"
+				onClick={() => props.handleBack()}
+			>
+				Back
+			</button>
 			<div className="min-h-screen bg-purple-1 flex items-center justify-center bg-center bg-no-repeat bg-cover">
 				<div className="w-9/12 bg-white rounded-lg p-4 max-h-screen overflow-y-scroll">
 					<h1 className="text-lg text-purple-1 pt-3 text-center font-bold">

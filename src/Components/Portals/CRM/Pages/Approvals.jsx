@@ -36,7 +36,13 @@ const Approvals = () => {
 				{/* Header */}
 				<div className="relative bg-slate-600 md:pt-28 pb-32 pt-12">
 					<div className="px-4 md:px-10 mx-auto w-full">
-						<AdminTopBar pageName="Dashboard / History" />
+						<AdminTopBar
+							pageName={
+								approve
+									? 'Dashboard / Approve Business'
+									: 'Dashboard / Approve Product'
+							}
+						/>
 						<div className="flex justify-around">
 							<Button
 								variant="contained"

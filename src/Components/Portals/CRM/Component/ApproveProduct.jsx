@@ -42,7 +42,7 @@ const ApproveProduct = () => {
 
 	const { TextArea } = Input
 
-	const [business, setBusiness] = useState([])
+	const [product, setProduct] = useState([])
 
 	const [loading, setLoading] = useState(true)
 
@@ -98,7 +98,8 @@ const ApproveProduct = () => {
 				res.data.user?.map(
 					val => (val.isApproved = val?.isApproved ? 'Approved' : 'Pending')
 				)
-				setBusiness(res.data.user.filter(val => val.role === 2))
+				setProduct(res.data.user.filter(val => val.isApproved === false))
+				console.log(product)
 			})
 			.catch(err => {
 				console.log(err)
@@ -109,20 +110,16 @@ const ApproveProduct = () => {
 		setLoading(true)
 		console.log('requestCaller')
 		axios
-			.get('/user/get-all', {
+			.get('/product/get-all/admin/?limit=100&offset=0', {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
 			})
 			.then(res => {
-				const data = res.data.user
-				console.log(res)
-				data.map(item => {
-					item.key = item.id
-				})
-				setBusiness(
-					data.filter(val => val.role === 2 && val.isApproved === false)
-				)
+				const data = res.data.data
+				console.log(data)
+				setProduct(data.filter(val => val.isApproved === false))
+				console.log(product)
 			})
 			.catch(err => {
 				console.log(err)
@@ -143,33 +140,33 @@ const ApproveProduct = () => {
 		}
 	}
 
-	const getAllLabourData = () => {
-		axios
-			.get(
-				'/user/get-all',
-				{},
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			)
-			.then(res => {
-				console.log(res)
-				res.data.user?.map(
-					val => (val.isApproved = val?.isApproved ? 'Approved' : 'Pending')
-				)
-				setBusiness(res.data.user.filter(val => val.role === 2))
-			})
-			.catch(err => {
-				console.log(err)
-			})
-	}
+	// const getAllLabourData = () => {
+	// 	axios
+	// 		.get(
+	// 			'/user/get-all',
+	// 			{},
+	// 			{
+	// 				headers: {
+	// 					Authorization: `Bearer ${token}`,
+	// 				},
+	// 			}
+	// 		)
+	// 		.then(res => {
+	// 			console.log(res)
+	// 			res.data.user?.map(
+	// 				val => (val.isApproved = val?.isApproved ? 'Approved' : 'Pending')
+	// 			)
+	// 			setProduct(res.data.user.filter(val => val.role === 2))
+	// 		})
+	// 		.catch(err => {
+	// 			console.log(err)
+	// 		})
+	// }
 
 	useEffect(() => {
 		requestsCaller()
 
-		getAllLabourData()
+		//	getAllLabourData()
 		// request(`/api/count/labourers`, 'GET')
 		// 	.then(async data => {
 		// 		setTotalLabours(data.totalLabourers)
@@ -361,8 +358,8 @@ const ApproveProduct = () => {
 
 	const onApprove = record => {
 		axios
-			.post(
-				`/user/approve/${record.id}`,
+			.put(
+				`/product/approve/${record.productId}`,
 				{},
 				{
 					headers: { Authorization: `Bearer ${token}` },
@@ -482,8 +479,8 @@ const ApproveProduct = () => {
 	const columns = [
 		{
 			key: 'name',
-			title: 'Name',
-			render: data => data.name,
+			title: 'Title',
+			render: data => data.title,
 			filterDropdown: () => (
 				<Row className="p-3 shadow-lg">
 					<Col>
@@ -523,9 +520,9 @@ const ApproveProduct = () => {
 			filterIcon: () => <SearchOutlined style={{ fontSize: 18 }} />,
 		},
 		{
-			key: 'email',
-			title: 'Email',
-			render: data => data.email,
+			key: 'description',
+			title: 'Description',
+			render: data => data.description,
 			filterDropdown: () => (
 				<Row className="p-3 shadow-lg">
 					<Col>
@@ -565,9 +562,9 @@ const ApproveProduct = () => {
 			filterIcon: () => <SearchOutlined style={{ fontSize: 18 }} />,
 		},
 		{
-			key: 'phoneNumber',
-			title: 'Phone',
-			render: data => data.phoneNumber,
+			key: 'packingType',
+			title: 'Packing Type',
+			render: data => data.packingType,
 			filterDropdown: () => (
 				<Row className="p-3 shadow-lg">
 					<Col>
@@ -607,9 +604,9 @@ const ApproveProduct = () => {
 			filterIcon: () => <SearchOutlined style={{ fontSize: 18 }} />,
 		},
 		{
-			key: 'ebServiceNo',
-			title: 'EB Service Number',
-			render: data => data.ebServiceNo,
+			key: 'uom',
+			title: 'UOM',
+			render: data => data.uom,
 		},
 		{
 			key: 'industryType',
@@ -617,9 +614,9 @@ const ApproveProduct = () => {
 			render: data => data.industryType,
 		},
 		{
-			key: 'gstin',
-			title: 'GSTIN',
-			render: data => data.gstin,
+			key: 'points',
+			title: 'Points',
+			render: data => data.points,
 		},
 		// {
 		// 	key: 'dateOfBirth',
@@ -755,7 +752,7 @@ const ApproveProduct = () => {
 	const skillData = data.skills || []
 	return (
 		<>
-			<HCLayout title="Business User (Approval)" actions={actionBtn}>
+			<HCLayout title="New Product (Approval)" actions={actionBtn}>
 				{showTrash ? (
 					<Alert
 						type="warning"
@@ -764,7 +761,7 @@ const ApproveProduct = () => {
 					/>
 				) : null}
 				<DataTable
-					usersData={business}
+					usersData={product}
 					searchable={false}
 					differUserRows
 					pagination={true}
@@ -784,9 +781,9 @@ const ApproveProduct = () => {
 						<TabPane tab="Business / Industry information" key="1">
 							<Row>
 								<Col span={12} lg={12} md={12} sm={32} xs={32}>
-									<Desc title="Company Name" content={data?.name} />
-									<Desc title="Phone Number" content={data?.phone} />
-									<Desc title="Email" content={data?.email} />
+									<Desc title="Title" content={data?.title} />
+									<Desc title="Description" content={data?.description} />
+									<Desc title="Points" content={data?.points} />
 									<Desc
 										title="Approval Status"
 										content={data?.isApproved ? 'Approved' : 'Not Approved'}
@@ -794,9 +791,9 @@ const ApproveProduct = () => {
 								</Col>
 								<Col span={12} lg={12} md={12} sm={32} xs={32}>
 									<Desc title="Registered On" content={data?.createdAt} />
-									<Desc title="Eb Service Number" content={data?.ebServiceNo} />
+									<Desc title="UOM" content={data?.uom} />
 									<Desc title="Industry Type" content={data?.industryType} />
-									<Desc title="GSTIN" content={data?.gstin} />
+									<Desc title="Packing Type" content={data?.packingType} />
 									{data.empStatus !== undefined ? (
 										<div>
 											<Desc
