@@ -35,6 +35,7 @@ import { innerTableActionBtnDesign } from './Common/InnerTableButtonDesign'
 import { Desc } from './Common/Layout/Desc'
 import { AddNewAssestForm } from './AddNewAssetForm'
 import { toast } from 'react-toastify'
+import { CSVLink } from 'react-csv'
 
 const AssetMasterTable = () => {
 	const token = JSON.parse(localStorage.getItem('jwt'))
@@ -283,64 +284,35 @@ const AssetMasterTable = () => {
 					<PlusOutlined /> Add New
 				</Button>
 			</Col>
-			{/* <Col>
-				{userContext.access['download'][0] ? (
-					<Button className="w-44" type="primary" style={{ border: 'none' }}>
-						<CSVLink
-							filename="Labourers.csv"
-							data={allLabours.map(labour => {
-								const updatedLabour = { ...labour }
-								updatedLabour.expLevel = ``.concat(
-									`${updatedLabour.labour?.expLevel} years`
-								)
-								updatedLabour.gender =
-									updatedLabour.gender === 1 ? 'Male' : 'Female'
-								updatedLabour.locale =
-									updatedLabour.locale === 3
-										? 'ta'
-										: updatedLabour.locale === 2
-										? 'hi'
-										: 'en'
-								updatedLabour.phone = `=""`.concat(updatedLabour.phone, `""`)
-								if (updatedLabour.bankDetails !== undefined) {
-									if (updatedLabour.bankDetails?.aadhaarNo)
-										updatedLabour.aadhaarNo = `=""`.concat(
-											updatedLabour.bankDetails?.aadhaarNo,
-											`""`
-										)
-									if (updatedLabour.bankDetails?.bankAccountNo)
-										updatedLabour.bankAccountNo = `=""`.concat(
-											updatedLabour.bankDetails?.bankAccountNo,
-											`""`
-										)
-									if (updatedLabour.bankDetails?.ifscCode)
-										updatedLabour.ifscCode = updatedLabour.bankDetails?.ifscCode
-									if (updatedLabour.bankDetails?.backAadhaarPhoto)
-										updatedLabour.backAadhaarPhoto =
-											updatedLabour.bankDetails?.backAadhaarPhoto
-									if (updatedLabour.bankDetails?.frontAadhaarPhoto)
-										updatedLabour.frontAadhaarPhoto =
-											updatedLabour.bankDetails?.frontAadhaarPhoto
-								}
-								updatedLabour.isBanned = !updatedLabour.isBanned
-									? 'false'
-									: 'true'
-								delete updatedLabour.id
-								delete updatedLabour.labour
-								delete updatedLabour.bankDetails
-								delete updatedLabour.role
-								return updatedLabour
-							})}
-							onClick={() => {
-								message.success('The file is downloading')
-							}}
-							className="w-44"
-						>
-							Export to CSV
-						</CSVLink>
-					</Button>
-				) : null}
-			</Col> */}
+			<Col>
+				<Button
+					type="primary"
+					className="flex items-center"
+					onClick={() => {
+						setShowForm(true)
+					}}
+				>
+					<PlusOutlined /> Upload CSV
+				</Button>
+			</Col>
+			<Col>
+				<Button className="w-44" type="primary" style={{}}>
+					<CSVLink
+						filename="Assets.csv"
+						data={asset.map(labour => {
+							const updatedAsset = { ...labour }
+
+							return updatedAsset
+						})}
+						onClick={() => {
+							message.success('The file is downloading')
+						}}
+						className="w-44"
+					>
+						Export to CSV
+					</CSVLink>
+				</Button>
+			</Col>
 		</Row>,
 	]
 

@@ -34,9 +34,10 @@ import { HCLayout } from './Common/Layout/HCLayout'
 import { innerTableActionBtnDesign } from './Common/InnerTableButtonDesign'
 import { Desc } from './Common/Layout/Desc'
 import { AddNewAssestForm } from './AddNewAssetForm'
+import CreateProduct from '../../Business/Component/CreateProduct'
 
 const ProductManagerTable = () => {
-	const token = localStorage.getItem('jwt')
+	const token = JSON.parse(localStorage.getItem('jwt'))
 
 	const { TabPane } = Tabs
 
@@ -82,7 +83,7 @@ const ProductManagerTable = () => {
 		axios
 			.get('/product/get-all/admin', {
 				headers: {
-					Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImV4cCI6MTY2MjE5MjAyOC42OTcsImlhdCI6MTY0NjI5NDQyOH0.O2Iz1ensiibs_rBCN3hj_ORoUjLff83FOR5IMs1IAt0`,
+					Authorization: `Bearer ${token}`,
 				},
 			})
 			.then(res => {
@@ -101,7 +102,7 @@ const ProductManagerTable = () => {
 		axios
 			.get('/product/get-all/admin', {
 				headers: {
-					Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImV4cCI6MTY2MjE5MjAyOC42OTcsImlhdCI6MTY0NjI5NDQyOH0.O2Iz1ensiibs_rBCN3hj_ORoUjLff83FOR5IMs1IAt0`,
+					Authorization: `Bearer ${token}`,
 				},
 			})
 			.then(res => {
@@ -255,12 +256,12 @@ const ProductManagerTable = () => {
 
 	const actionBtn = [
 		<Row gutter={16} className="flex items-center">
-			<Col>
+			{/* <Col>
 				<div className="">
 					Trash: &nbsp;
 					<Switch defaultChecked={showTrash} onChange={getTrash} />
 				</div>
-			</Col>
+			</Col> */}
 			<Col>
 				<Button
 					type="primary"
@@ -424,6 +425,8 @@ const ProductManagerTable = () => {
 		setEditData({})
 	}
 
+	const newProductHide = () => setShowForm(false)
+
 	const editModalSave = () => {
 		// 	setEditModalVisiblity(false)
 		// 	setLoading(true)
@@ -577,34 +580,24 @@ const ProductManagerTable = () => {
 			filterIcon: () => <SearchOutlined style={{ fontSize: 18 }} />,
 		},
 		{
-			key: 'make',
-			title: 'Make',
-			render: data => data.make,
+			key: 'description',
+			title: 'Description',
+			render: data => data.description,
 		},
 		{
-			key: 'model',
-			title: 'Model',
-			render: data => data.model,
+			key: 'packingType',
+			title: 'Packing Type',
+			render: data => data.packingType,
 		},
 		{
-			key: 'capacity',
-			title: 'Capacity',
-			render: data => data.capacity,
+			key: 'uom',
+			title: 'UOM',
+			render: data => data.uom,
 		},
 		{
-			key: 'edc',
-			title: 'EDC',
-			render: data => data.edc,
-		},
-		{
-			key: 'substation',
-			title: 'Sub-Station',
-			render: data => data.substation,
-		},
-		{
-			key: 'latitude',
-			title: 'Latitude',
-			render: data => data.latitude,
+			key: 'isApproved',
+			title: 'Status',
+			render: data => (data.isApproved ? 'Approved' : 'Pending'),
 		},
 		{
 			key: 'longitude',
@@ -752,34 +745,13 @@ const ProductManagerTable = () => {
 						usersData={product}
 						searchable={false}
 						differUserRows
-						pagination={false}
+						pagination={true}
 						loading={loading}
 						rowSelection={rowSelection}
 						columns={columns}
 					/>
 				</div>
-				<Row gutter={[8, 8]} className="p-5">
-					<Col offset={21}>
-						<Button
-							type="primary"
-							onClick={() => paginationHandler('b', product[0].id)}
-							title="Prev"
-						>
-							Prev
-						</Button>
-					</Col>
-					<Col>
-						<Button
-							type="primary"
-							onClick={() =>
-								paginationHandler('f', product[product.length - 1].id)
-							}
-							title="Next"
-						>
-							Next
-						</Button>
-					</Col>
-				</Row>
+				<div className="py-3 bg-purple-1"></div>
 				<Drawer
 					title={siderProps.title}
 					width="750px"
@@ -930,7 +902,7 @@ const ProductManagerTable = () => {
 					</Form>
 				</Modal>
 			</HCLayout>
-			{showForm ? <AddNewAssestForm /> : null}
+			{showForm ? <CreateProduct handleBack={newProductHide} /> : null}
 		</>
 	)
 }
