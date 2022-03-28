@@ -21,10 +21,8 @@ export const login =
 				password,
 			})
 			.then(res => {
-				res?.data?.data?.role === 1
-					? toast.warning(
-							"Web Portal is for Business's and Admins only. Please use the mobile app Instead."
-					  )
+				res?.data?.data?.role === 1 || res?.data?.data?.role === 2
+					? toast.warning("Web Portal is for Business's and Admins only.")
 					: toast.success(res?.data?.message)
 				dispatch(setUserDetails(res?.data?.data))
 				dispatch(setAuth(true))

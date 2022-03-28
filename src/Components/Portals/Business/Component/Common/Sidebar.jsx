@@ -119,11 +119,22 @@ function Sidebar() {
 									Generate QR
 								</Link>
 							</li>
+							<li className="items-center">
+								<Link
+									className="text-xs uppercase py-3 font-bold flex text-white hover:text-blue-600 items-center"
+									to="/business/generationplan"
+								>
+									<QrcodeOutlined
+										style={{ fontSize: '20px', paddingRight: '10px' }}
+									/>
+									Generation Plan
+								</Link>
+							</li>
 
 							<li className="items-center">
 								<Link
 									className="text-xs uppercase py-3 font-bold flex text-white hover:text-blue-600 items-center"
-									to="/business/history"
+									to="/business/documents"
 								>
 									<FileTextOutlined
 										style={{ fontSize: '20px', paddingRight: '10px' }}

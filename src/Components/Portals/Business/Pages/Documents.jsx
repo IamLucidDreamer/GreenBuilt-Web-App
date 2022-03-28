@@ -1,37 +1,14 @@
-import React, { useState, useEffect, useMemo } from 'react'
-import {
-	Button,
-	Radio,
-	Input,
-	Form,
-	Row,
-	Col,
-	Drawer,
-	Modal,
-	Image,
-	message,
-	Tabs,
-	Alert,
-	Switch,
-	Tooltip,
-	Select,
-} from 'antd'
-import {
-	EyeOutlined,
-	EditOutlined,
-	DeleteOutlined,
-	SearchOutlined,
-	BellOutlined,
-	ExclamationOutlined,
-	CloseOutlined,
-	ReloadOutlined,
-} from '@ant-design/icons'
+import React, { useState } from 'react'
+import { Route, Routes, Switch } from 'react-router-dom'
+import GenerateQr from '../Component/GenerateQr'
+import { Products } from '../Component/Products'
 import Sidebar from '../Component/Common/Sidebar'
 import AdminTopBar from '../Component/Common/AdminTopBar'
+import HeaderStats from '../Component/Common/HeaderStats'
 import { AlignCenterOutlined, LeftOutlined } from '@ant-design/icons'
-import HistoryTable from '../Component/HistoryTable'
+import { DocumentUpload } from '../Component/DocumentsUpload'
 
-const History = () => {
+const Documents = () => {
 	const [show, setShow] = useState(false)
 
 	return (
@@ -57,16 +34,15 @@ const History = () => {
 				{/* Header */}
 				<div className="relative bg-slate-600 md:pt-32 pb-32 pt-12">
 					<div className="px-4 md:px-10 mx-auto w-full">
-						<AdminTopBar pageName="Dashboard / History" />
+						<AdminTopBar pageName="Dashboard / Products" />
 					</div>
 				</div>
 				<div className="mx-auto w-full -m-44 z-50">
-					{/* <HistoryTable /> */}
-					<HistoryTable />
+					<DocumentUpload />
 				</div>
 			</div>
 		</div>
 	)
 }
 
-export { History }
+export default Documents

@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { logout } from '../../../../../store/actions/user'
-import { TiUser } from 'react-icons/ti'
+import { LogoutOutlined } from '@ant-design/icons'
 
 function AdminTopBar(props) {
 	const navigate = useNavigate()
@@ -29,7 +29,7 @@ function AdminTopBar(props) {
 								navigate('/login')
 							}}
 						>
-							<TiUser size={40} color={'#fff'} />
+							<LogoutOutlined style={{ fontSize: '30px', color: '#fff' }} />
 						</button>
 					</ul>
 				</div>

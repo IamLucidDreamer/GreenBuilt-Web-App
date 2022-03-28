@@ -600,8 +600,8 @@ const ProductManagerTable = () => {
 			render: data => (data.isApproved ? 'Approved' : 'Pending'),
 		},
 		{
-			key: 'longitude',
-			title: 'Longitude',
+			key: 'customerName',
+			title: 'Customer Name',
 			render: data => data.longitude,
 		},
 		// {
@@ -696,11 +696,6 @@ const ProductManagerTable = () => {
 							onDrawerOpen(record)
 						}}
 					/>
-					<EditOutlined
-						title="Edit"
-						style={innerTableActionBtnDesign}
-						//onClick={() => onEdit(record)}
-					/>
 					<DeleteOutlined
 						title="Ban"
 						style={innerTableActionBtnDesign}
@@ -747,7 +742,6 @@ const ProductManagerTable = () => {
 						differUserRows
 						pagination={true}
 						loading={loading}
-						rowSelection={rowSelection}
 						columns={columns}
 					/>
 				</div>

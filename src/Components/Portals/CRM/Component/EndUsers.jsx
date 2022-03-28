@@ -661,7 +661,6 @@ const EndUsers = () => {
 				differUserRows
 				pagination={true}
 				loading={loading}
-				rowSelection={rowSelection}
 				columns={columns}
 			/>
 			<div className="py-3 bg-purple-1"></div>

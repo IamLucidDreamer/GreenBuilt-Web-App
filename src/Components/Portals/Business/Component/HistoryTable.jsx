@@ -35,9 +35,12 @@ import { HCLayout } from './Common/Layout/HCLayout'
 import { innerTableActionBtnDesign } from './Common/InnerTableButtonDesign'
 import { Desc } from './Common/Layout/Desc'
 import CreateProduct from './CreateProduct'
+import { useSelector } from 'react-redux'
 
-const HistoryTable = () => {
+const HistoryTableGenerate = () => {
 	const token = JSON.parse(localStorage.getItem('jwt'))
+
+	const user = useSelector(state => state.user)
 
 	const { TabPane } = Tabs
 
@@ -106,7 +109,7 @@ const HistoryTable = () => {
 			console.log('requestCaller')
 			axios
 				.get(
-					`/product/get-all/corporate`,
+					`/qr/history/generate/${user.id}`,
 
 					{
 						headers: {
@@ -116,7 +119,7 @@ const HistoryTable = () => {
 				)
 				.then(res => {
 					const data = res.data.data
-					console.log(res)
+					console.log(data)
 					data.map(item => {
 						item.key = item.id
 					})
@@ -423,7 +426,8 @@ const HistoryTable = () => {
 		{
 			key: 'title',
 			title: 'Title',
-			render: data => data.title,
+			render: data =>
+				data.product.title === null ? 'Null' : data.product.title,
 			filterDropdown: () => (
 				<Row className="p-3 shadow-lg">
 					<Col>
@@ -845,4 +849,4 @@ const HistoryTable = () => {
 	)
 }
 
-export default HistoryTable
+export default HistoryTableGenerate

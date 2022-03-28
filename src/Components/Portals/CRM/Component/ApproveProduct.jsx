@@ -358,7 +358,7 @@ const ApproveProduct = () => {
 
 	const onApprove = record => {
 		axios
-			.put(
+			.post(
 				`/product/approve/${record.productId}`,
 				{},
 				{

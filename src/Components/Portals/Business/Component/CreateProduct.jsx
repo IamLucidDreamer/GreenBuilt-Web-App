@@ -2,6 +2,7 @@ import React from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import axios from '../../../../helpers/http-helper'
+import { toast } from 'react-toastify'
 
 function CreateProduct(props) {
 	//Create Products Error With Points providing String in place of number
@@ -13,7 +14,7 @@ function CreateProduct(props) {
 			photo: '',
 			industryType: '',
 			uom: '',
-			packingType: '',
+			packagingType: '',
 		},
 		validationSchema: Yup.object({
 			title: Yup.string().required('Required'),
@@ -39,9 +40,11 @@ function CreateProduct(props) {
 				},
 			})
 			.then(res => {
-				console.log(res.data)
+				toast.success(res.data.message)
 			})
-			.catch(err => {})
+			.catch(err => {
+				toast.error(err.response.data.erro)
+			})
 	}
 
 	return (
@@ -104,10 +107,10 @@ function CreateProduct(props) {
 							<input
 								placeholder="Packing Type"
 								className="p-1.5 rounded-lg bg-purple-1 bg-opacity-10 border-2 border-purple-1"
-								{...formik.getFieldProps('packingType')}
+								{...formik.getFieldProps('packagingType')}
 							/>
-							{formik.touched.packingType && formik.errors.packingType ? (
-								<div>{formik.errors.packingType}</div>
+							{formik.touched.packagingType && formik.errors.packagingType ? (
+								<div>{formik.errors.packagingType}</div>
 							) : null}
 						</div>
 						<div className="my-2 flex flex-col">

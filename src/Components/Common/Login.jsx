@@ -85,13 +85,6 @@ const Login = () => {
 							LogIn
 						</button>
 					</form>
-					<h1 className="text-xs text-purple-1 pt-2 text-center">
-						New around here ?{' '}
-						<Link to="../signup" className="font-bold hover:underline">
-							{' '}
-							Sign Up
-						</Link>
-					</h1>
 				</div>
 			</div>
 		</>

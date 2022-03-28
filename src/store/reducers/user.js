@@ -2,6 +2,7 @@ import { IS_AUTH, LOGIN } from '../constants/index'
 
 const initialValues = {
 	auth: false,
+	user: {},
 }
 const userReducer = (state = initialValues, action) => {
 	switch (action.type) {

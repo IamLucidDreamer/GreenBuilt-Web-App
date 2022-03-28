@@ -16,6 +16,7 @@ const SignUpOtp = () => {
 	const dispatch = useDispatch()
 	const user = useSelector(state => state.user)
 	const navigate = useNavigate()
+	console.log(authenticated)
 
 	const [form, setForm] = useState(1)
 	const [confirmObj, setConfirmObj] = useState()
@@ -57,8 +58,7 @@ const SignUpOtp = () => {
 			console.log(response)
 			setConfirmObj(response)
 		} catch (err) {
-			console.log(err)
-			toast.error('Unable to Send the OTP.')
+			toast.error(`Unable to Send the OTP. ${err.message}`)
 			setForm(1)
 		}
 	}
@@ -80,8 +80,8 @@ const SignUpOtp = () => {
 				.required('Required'),
 			phoneNumber: Yup.string()
 				.required('Required')
-				.min(10, 'Must be 10 characters')
-				.max(10, 'Must be 10 characters'),
+				.min(10, 'Must be 10 characters'),
+			// .max(10, 'Must be 10 characters'),
 			countryCode: Yup.string().required('Required'),
 		}),
 		onSubmit: values => {

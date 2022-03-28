@@ -35,6 +35,7 @@ import { HCLayout } from './Common/Layout/HCLayout'
 import { innerTableActionBtnDesign } from './Common/InnerTableButtonDesign'
 import { Desc } from './Common/Layout/Desc'
 import CreateProduct from './CreateProduct'
+import { toast } from 'react-toastify'
 
 const Products = () => {
 	const token = JSON.parse(localStorage.getItem('jwt'))
@@ -284,7 +285,7 @@ const Products = () => {
 			<Col>
 				<Button className="w-44" type="primary" style={{ fontWeight: 'bold' }}>
 					<CSVLink
-						filename="BusinessUsers.csv"
+						filename="Product.csv"
 						data={allProducts.map(product => {
 							const updatedProduct = { ...product }
 							return updatedProduct
@@ -317,35 +318,24 @@ const Products = () => {
 	}
 
 	const newProductHide = () => setNewProduct(false)
-	// const onDelete = record => {
-	// 	Modal.confirm({
-	// 		title: 'Are you sure, you want to Ban this labour',
-	// 		okText: 'Yes, Ban',
-	// 		onOk: () => {
-	// 			setLoading(true)
-	// 			request(`/api/app-user?userId=${record.userId}`, 'DELETE')
-	// 				.then(async () => {
-	// 					setLabour(
-	// 						labour.map(labour =>
-	// 							labour.id === record.id
-	// 								? {
-	// 										...labour,
-	// 										userInfo: { ...labour.userInfo, isBanned: true },
-	// 								  }
-	// 								: labour
-	// 						)
-	// 					)
 
-	// 					setBannedLabours(bannedLabours + 1)
-	// 					setLoading(false)
-	// 				})
-	// 				.catch(err => {
-	// 					setLoading(false)
-	// 					throw err
-	// 				})
-	// 		},
-	// 	})
-	// }
+	const onDelete = record => {
+		Modal.confirm({
+			title: 'Are you sure, you want to Ban this Product',
+			okText: 'Yes, Delete',
+			onOk: () => {
+				axios
+					.delete(`/product/delete/${record.productId}`, {
+						headers: { Authorization: `Bearer ${token}` },
+					})
+					.then(res => {
+						toast.success('Product Deleted Succesfully')
+						requestsCaller()
+					})
+					.catch(err => toast.error('Product Deletion Failed'))
+			},
+		})
+	}
 
 	// const onUnban = record => {
 	// 	Modal.confirm({
@@ -506,8 +496,8 @@ const Products = () => {
 		},
 		{
 			key: 'packingType',
-			title: 'Packing Type',
-			render: data => data.packingType,
+			title: 'Packaging Type',
+			render: data => data.packagingType,
 			filterDropdown: () => (
 				<Row className="p-3 shadow-lg">
 					<Col>
@@ -662,12 +652,12 @@ const Products = () => {
 						title="Edit"
 						style={innerTableActionBtnDesign}
 						//onClick={() => onEdit(record)}
-					/>
+					/> */}
 					<DeleteOutlined
 						title="Ban"
 						style={innerTableActionBtnDesign}
-						//onClick={() => onDelete(record)}
-					/> */}
+						onClick={() => onDelete(record)}
+					/>
 					{/* {!hideTrash ? (
 						<DeleteOutlined
 							title="Delete Permanently"
@@ -706,7 +696,6 @@ const Products = () => {
 				differUserRows
 				pagination={true}
 				loading={loading}
-				rowSelection={rowSelection}
 				columns={columns}
 			/>
 			<div className="py-3 bg-purple-1"></div>
@@ -718,7 +707,7 @@ const Products = () => {
 				visible={drawer}
 			>
 				<Tabs defaultActiveKey="1">
-					<TabPane tab="Business / Industry information" key="1">
+					<TabPane tab="Product information" key="1">
 						<Row>
 							<Col span={12} lg={12} md={12} sm={32} xs={32}>
 								<Desc title="Name" content={data?.title} />
@@ -740,11 +729,7 @@ const Products = () => {
 								<h2>
 									<b>Image : </b>
 								</h2>
-								<Image
-									src={data.userInfo?.imageUrl}
-									height="200px"
-									width="200px"
-								/>
+								<Image src={data?.photo} height="200px" width="200px" />
 							</Col>
 						</Row>
 					</TabPane>

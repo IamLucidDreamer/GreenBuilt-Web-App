@@ -16,11 +16,14 @@ import AssetMaster from './Portals/CRM/Pages/AssetMaster'
 import ProductManager from './Portals/CRM/Pages/ProductManager'
 import SignUpOtp from './Common/SignUpOtp'
 import { History } from './Portals/Business/Pages/History'
+import Documents from './Portals/Business/Pages/Documents'
+import GenerationPlan from './Portals/Business/Pages/GenerationPlan'
 
 const Navigation = () => {
 	const token = localStorage.getItem('jwt')
 	const user = useSelector(state => state.user)
 	const authenticated = token => (token ? true : false)
+	console.log(authenticated)
 	const navigate = useNavigate()
 	const handleUnAuth = () => navigate('/login')
 	return (
@@ -28,18 +31,6 @@ const Navigation = () => {
 			<Route path="/" element={<Home />} />
 			<Route path="/login" element={<Login />} />
 			<Route path="/signup" element={<SignUpOtp />} />
-
-			{/* Handling the Business Routes */}
-
-			{user?.role === 2 && authenticated ? (
-				<>
-					<Route path="/business/dashboard" element={<BusinessDashboard />} />
-					<Route path="/business/product" element={<ProductPage />} />
-					<Route path="/business/addnewproduct" element={<CreateProduct />} />
-					<Route path="/business/generateqr" element={<GenerateqrPage />} />
-					<Route path="/business/history" element={<History />} />
-				</>
-			) : null}
 
 			{/* Handling the Admin Routes */}
 

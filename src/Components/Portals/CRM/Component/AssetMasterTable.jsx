@@ -36,9 +36,13 @@ import { Desc } from './Common/Layout/Desc'
 import { AddNewAssestForm } from './AddNewAssetForm'
 import { toast } from 'react-toastify'
 import { CSVLink } from 'react-csv'
+import { useCSVReader } from 'react-papaparse'
 
 const AssetMasterTable = () => {
 	const token = JSON.parse(localStorage.getItem('jwt'))
+	const [Csv, setCsv] = useState(false)
+
+	const { CSVReader } = useCSVReader()
 
 	const { TabPane } = Tabs
 
@@ -285,14 +289,35 @@ const AssetMasterTable = () => {
 				</Button>
 			</Col>
 			<Col>
-				<Button
-					type="primary"
-					className="flex items-center"
-					onClick={() => {
-						setShowForm(true)
-					}}
-				>
-					<PlusOutlined /> Upload CSV
+				{Csv ? (
+					<CSVReader
+						onUploadAccepted={results => {
+							console.log('---------------------------')
+							console.log(results)
+							console.log('---------------------------')
+						}}
+					>
+						{({
+							getRootProps,
+							acceptedFile,
+							ProgressBar,
+							getRemoveFileProps,
+						}) => (
+							<>
+								<div>
+									<button type="button" {...getRootProps()}>
+										Browse file
+									</button>
+									<div>{acceptedFile && acceptedFile.name}</div>
+									<button {...getRemoveFileProps()}>Remove</button>
+								</div>
+								<ProgressBar />
+							</>
+						)}
+					</CSVReader>
+				) : null}
+				<Button className="w-44" type="primary" onClick={() => setCsv(!Csv)}>
+					CSV Upload
 				</Button>
 			</Col>
 			<Col>
@@ -723,7 +748,6 @@ const AssetMasterTable = () => {
 						differUserRows
 						pagination={true}
 						loading={loading}
-						rowSelection={rowSelection}
 						columns={columns}
 					/>
 				</div>

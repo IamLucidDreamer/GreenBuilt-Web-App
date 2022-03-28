@@ -256,7 +256,7 @@ export const AddNewAssestForm = props => {
 							type="submit"
 							className="w-full py-1.5 my-3 bg-purple-1 border-2 border-purple-1 focus:outline-none hover:bg-green-1 rounded text-base text-white font-bold hover:text-purple-1 duration-500"
 						>
-							Create New Product
+							Create New Asset
 						</button>
 					</form>
 				</div>

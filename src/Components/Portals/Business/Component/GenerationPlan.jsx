@@ -1,4 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import axios from '../../../../helpers/http-helper'
+import QRCode from 'react-qr-code'
+import { toast } from 'react-toastify'
 import {
 	Button,
 	Radio,
@@ -14,6 +19,7 @@ import {
 	Alert,
 	Switch,
 	Tooltip,
+	Select,
 } from 'antd'
 import {
 	EyeOutlined,
@@ -24,24 +30,24 @@ import {
 	ExclamationOutlined,
 	CloseOutlined,
 	ReloadOutlined,
+	QrcodeOutlined,
 } from '@ant-design/icons'
 import QS from 'query-string'
 import { CSVLink } from 'react-csv'
 import { DataTable } from './Common/Table/Table'
 import { useTable } from 'react-table'
-import axios from '../../../../helpers/http-helper'
 import { HCLayout } from './Common/Layout/HCLayout'
 import { innerTableActionBtnDesign } from './Common/InnerTableButtonDesign'
 import { Desc } from './Common/Layout/Desc'
 
-const BusinessUsers = () => {
+function GenerationPlan() {
 	const token = JSON.parse(localStorage.getItem('jwt'))
 
 	const { TabPane } = Tabs
 
 	const { TextArea } = Input
 
-	const [business, setBusiness] = useState([])
+	const [product, setProduct] = useState([])
 
 	const [loading, setLoading] = useState(true)
 
@@ -55,11 +61,13 @@ const BusinessUsers = () => {
 
 	const [title, setTitle] = useState('')
 
-	const [allBusiness, setAllBusiness] = useState([])
+	const [allProducts, setAllProducts] = useState([])
+
+	const [newProduct, setNewProduct] = useState(false)
 
 	const [body, setBody] = useState('')
 
-	const [showTrash, setShowTrash] = useState(false)
+	const [hideTrash, setHideTrash] = useState(true)
 
 	const [disableNotificationButton, setDisableNotificationButton] =
 		useState(true)
@@ -72,10 +80,26 @@ const BusinessUsers = () => {
 
 	const [selectedIds, setSelectedIds] = useState([])
 	const [selectedTempIds, setSelectedTempIds] = useState([])
-	const [showForm, setShowForm] = useState(false)
+
+	const [qrId, setQrId] = useState('')
+
+	const downloadQRCode = () => {
+		const qrCodeURL = document
+			.getElementById('qrCodeEl')
+			.toDataURL('image/png')
+			.replace('image/png', 'image/octet-stream')
+		console.log(qrCodeURL)
+		let aEl = document.createElement('a')
+		aEl.href = qrCodeURL
+		aEl.download = 'QR_Code.png'
+		document.body.appendChild(aEl)
+		aEl.click()
+		document.body.removeChild(aEl)
+	}
 
 	const refreshTable = queryString => {
 		setLoading(true)
+		console.log('refreshTable')
 
 		axios
 			.get('/user/get-all', {
@@ -88,7 +112,7 @@ const BusinessUsers = () => {
 				res.data.user?.map(
 					val => (val.isApproved = val?.isApproved ? 'Approved' : 'Pending')
 				)
-				setBusiness(res.data.user.filter(val => val.role === 2))
+				setProduct(res.data.user.filter(val => val.role === 2))
 			})
 			.catch(err => {
 				console.log(err)
@@ -96,44 +120,65 @@ const BusinessUsers = () => {
 	}
 
 	const requestsCaller = () => {
+		if (hideTrash) {
+			setLoading(true)
+			console.log('requestCaller')
+			axios
+				.get(
+					`/product/get-all/corporate`,
+
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
+				)
+				.then(res => {
+					const data = res.data.data
+					console.log(res)
+					data.map(item => {
+						item.key = item.id
+					})
+					setProduct(data)
+				})
+				.catch(err => {
+					console.log(err)
+				})
+				.finally(setLoading(false))
+		} else {
+			getTrash()
+		}
+	}
+
+	const getTrash = () => {
 		setLoading(true)
+		console.log('Get Trash')
 		axios
-			.get('/user/get-all', {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			})
+			.get(
+				`/product/get-all/corporate`,
+
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			)
 			.then(res => {
-				const data = res.data.user
+				const data = res.data.data
 				console.log(res)
 				data.map(item => {
 					item.key = item.id
 				})
-				data?.map(
-					val => (val.isApproved = val?.isApproved ? 'Approved' : 'Pending')
-				)
-				setBusiness(data.filter(val => val.role === 2))
+
+				setProduct(data.filter(data => data.isTrash !== false))
 			})
 			.catch(err => {
 				console.log(err)
 			})
 			.finally(setLoading(false))
 	}
-	const getTrash = val => {
-		setShowTrash(val)
-		onTableFilterChange({
-			isBanned: val,
-			direction: undefined,
-			lastRecordId: undefined,
-		})
-		if (val) {
-			setFilterChange()
-		} else {
-			clearFilter('isBanned')
-		}
-	}
 
-	const getAllBusiness = () => {
+	const getAllProducts = () => {
 		axios
 			.get('/user/get-all', {
 				headers: {
@@ -141,11 +186,7 @@ const BusinessUsers = () => {
 				},
 			})
 			.then(res => {
-				console.log(res, 'Hello')
-				res.data.user?.map(
-					val => (val.isApproved = val?.isApproved ? 'Approved' : 'Pending')
-				)
-				setAllBusiness(res.data.user.filter(val => val.role === 2))
+				setAllProducts(res.data.user.filter(val => val.role === 2))
 			})
 			.catch(err => {
 				console.log(err)
@@ -154,7 +195,7 @@ const BusinessUsers = () => {
 
 	useEffect(() => {
 		requestsCaller()
-		getAllBusiness()
+		getAllProducts()
 	}, [])
 
 	useEffect(() => {
@@ -242,8 +283,10 @@ const BusinessUsers = () => {
 				<div className="">
 					Trash: &nbsp;
 					<Switch
-						defaultChecked={showTrash}
-						onChange={getTrash}
+						onChange={() => {
+							setHideTrash(!hideTrash)
+							requestsCaller()
+						}}
 						style={{ backgroundColor: '#616161' }}
 					/>
 				</div>
@@ -257,13 +300,13 @@ const BusinessUsers = () => {
 					<ReloadOutlined />
 				</Button>
 			</Col>
-			<Col>
+			{/* <Col>
 				<Button className="w-44" type="primary" style={{ fontWeight: 'bold' }}>
 					<CSVLink
 						filename="BusinessUsers.csv"
-						data={allBusiness.map(business => {
-							const updatedBusiness = { ...business }
-							return updatedBusiness
+						data={allProducts.map(product => {
+							const updatedProduct = { ...product }
+							return updatedProduct
 						})}
 						onClick={() => {
 							message.success('The file is downloading')
@@ -274,6 +317,16 @@ const BusinessUsers = () => {
 					</CSVLink>
 				</Button>
 			</Col>
+			<Col>
+				<Button
+					className="w-44"
+					type="primary"
+					style={{ fontWeight: 'bold' }}
+					onClick={() => setNewProduct(true)}
+				>
+					Add New
+				</Button>
+			</Col> */}
 		</Row>,
 	]
 
@@ -282,35 +335,25 @@ const BusinessUsers = () => {
 		setEditData(record)
 	}
 
-	// const onDelete = record => {
-	// 	Modal.confirm({
-	// 		title: 'Are you sure, you want to Ban this labour',
-	// 		okText: 'Yes, Ban',
-	// 		onOk: () => {
-	// 			setLoading(true)
-	// 			request(`/api/app-user?userId=${record.userId}`, 'DELETE')
-	// 				.then(async () => {
-	// 					setLabour(
-	// 						labour.map(labour =>
-	// 							labour.id === record.id
-	// 								? {
-	// 										...labour,
-	// 										userInfo: { ...labour.userInfo, isBanned: true },
-	// 								  }
-	// 								: labour
-	// 						)
-	// 					)
+	const newProductHide = () => setNewProduct(false)
 
-	// 					setBannedLabours(bannedLabours + 1)
-	// 					setLoading(false)
-	// 				})
-	// 				.catch(err => {
-	// 					setLoading(false)
-	// 					throw err
-	// 				})
-	// 		},
-	// 	})
-	// }
+	const onDelete = record => {
+		Modal.confirm({
+			title: 'Are you sure, you want to Ban this labour',
+			okText: 'Yes, Ban',
+			onOk: () => {
+				axios
+					.delete(`/product/delete/${record.productId}`, {
+						headers: { Authorization: `Bearer ${token}` },
+					})
+					.then(res => {
+						toast.success('Product Deleted Succesfully')
+						requestsCaller()
+					})
+					.catch(err => toast.error('Product Deletion Failed'))
+			},
+		})
+	}
 
 	// const onUnban = record => {
 	// 	Modal.confirm({
@@ -347,10 +390,21 @@ const BusinessUsers = () => {
 		setDrawer(false)
 	}
 	const onDrawerOpen = record => {
-		setSiderProps({
-			title: record.name,
-			data: record,
-		})
+		axios
+			.post(
+				`/qr/generate/${record.productId}`,
+				{},
+				{
+					headers: { Authorization: `Bearer ${token}` },
+				}
+			)
+			.then(res => {
+				toast.success('QR Generated Successfully')
+				setQrId(res.data.data.qrId)
+			})
+			.catch(err => {
+				toast.error('QR Generation Failed')
+			})
 		setDrawer(true)
 	}
 
@@ -386,9 +440,9 @@ const BusinessUsers = () => {
 
 	const columns = [
 		{
-			key: 'name',
-			title: 'Name',
-			render: data => data.name,
+			key: 'title',
+			title: 'Title',
+			render: data => data.title,
 			filterDropdown: () => (
 				<Row className="p-3 shadow-lg">
 					<Col>
@@ -428,9 +482,9 @@ const BusinessUsers = () => {
 			filterIcon: () => <SearchOutlined style={{ fontSize: 18 }} />,
 		},
 		{
-			key: 'email',
-			title: 'Email',
-			render: data => data.email,
+			key: 'industryType',
+			title: 'Industry Type',
+			render: data => data.industryType,
 			filterDropdown: () => (
 				<Row className="p-3 shadow-lg">
 					<Col>
@@ -470,9 +524,9 @@ const BusinessUsers = () => {
 			filterIcon: () => <SearchOutlined style={{ fontSize: 18 }} />,
 		},
 		{
-			key: 'phoneNumber',
-			title: 'Phone',
-			render: data => data.phoneNumber,
+			key: 'packingType',
+			title: 'Packing Type',
+			render: data => data.packagingType,
 			filterDropdown: () => (
 				<Row className="p-3 shadow-lg">
 					<Col>
@@ -512,24 +566,24 @@ const BusinessUsers = () => {
 			filterIcon: () => <SearchOutlined style={{ fontSize: 18 }} />,
 		},
 		{
-			key: 'ebServiceNo',
-			title: 'EB Service Number',
-			render: data => data.ebServiceNo,
+			key: 'uom',
+			title: 'UOM',
+			render: data => data.uom,
 		},
 		{
-			key: 'industryType',
-			title: 'Industry Type',
-			render: data => data.industryType,
-		},
-		{
-			key: 'gstin',
-			title: 'GSTIN',
-			render: data => data.gstin,
+			key: 'description',
+			title: 'Description',
+			render: data => data.description,
 		},
 		{
 			key: 'points',
 			title: 'Points',
 			render: data => data.points,
+		},
+		{
+			key: 'isApproved',
+			title: 'Status',
+			render: data => (data.isApproved ? 'Approved' : 'Pending'),
 		},
 		// {
 		// 	key: 'dateOfBirth',
@@ -616,30 +670,13 @@ const BusinessUsers = () => {
 			width: 200,
 			render: record => (
 				<div className="flex items-center justify-evenly">
-					<EyeOutlined
+					<QrcodeOutlined
 						title="View"
-						//style={innerTableActionBtnDesign}
+						style={innerTableActionBtnDesign}
 						onClick={() => {
 							onDrawerOpen(record)
 						}}
 					/>
-					{/* <EditOutlined
-						title="Edit"
-						style={innerTableActionBtnDesign}
-						//onClick={() => onEdit(record)}
-					/>
-					<DeleteOutlined
-						title="Ban"
-						style={innerTableActionBtnDesign}
-						//onClick={() => onDelete(record)}
-					/>
-					{showTrash ? (
-						<DeleteOutlined
-							title="Delete Permanently"
-							style={innerTableActionBtnDesign}
-							//onClick={() => finalDelete(record)}
-						/>
-					) : null} */}
 				</div>
 			),
 		},
@@ -656,18 +693,17 @@ const BusinessUsers = () => {
 		setSelectedTempIds([])
 	}
 
-	const skillData = data.skills || []
 	return (
-		<HCLayout title="Business / Industry Users" actions={actionBtn}>
-			{showTrash ? (
+		<HCLayout title="Generation Plan" actions={actionBtn}>
+			{!hideTrash ? (
 				<Alert
 					type="warning"
-					message="Labour in trash will be removed automatically after 30 days"
+					message="Products in trash will be removed automatically after 30 days"
 					showIcon
 				/>
 			) : null}
 			<DataTable
-				usersData={business}
+				usersData={product}
 				searchable={false}
 				differUserRows
 				pagination={true}
@@ -683,47 +719,10 @@ const BusinessUsers = () => {
 				visible={drawer}
 			>
 				<Tabs defaultActiveKey="1">
-					<TabPane tab="Business / Industry information" key="1">
+					<TabPane tab="Genrated QR" key="1">
 						<Row>
-							<Col span={12} lg={12} md={12} sm={32} xs={32}>
-								<Desc title="Company Name" content={data?.name} />
-								<Desc title="Phone Number" content={data?.phone} />
-								<Desc title="Email" content={data?.email} />
-								<Desc
-									title="Approval Status"
-									content={data?.isApproved ? 'Approved' : 'Not Approved'}
-								/>
-							</Col>
-							<Col span={12} lg={12} md={12} sm={32} xs={32}>
-								<Desc title="Registered On" content={data?.createdAt} />
-								<Desc title="Eb Service Number" content={data?.ebServiceNo} />
-								<Desc title="Industry Type" content={data?.industryType} />
-								<Desc title="GSTIN" content={data?.gstin} />
-								{data.empStatus !== undefined ? (
-									<div>
-										<Desc
-											title="Mill Owner Name"
-											content={data.empStatus?.mill?.millOwner?.userInfo?.name}
-										/>
-										<Desc
-											title="Mill Owner Phone No."
-											content={data.empStatus?.mill?.millOwner?.userInfo?.phone}
-										/>
-									</div>
-								) : (
-									''
-								)}
-							</Col>
-
 							<Col span={32} className="p-3 mt-3">
-								<h2>
-									<b>Image : </b>
-								</h2>
-								<Image
-									src={data.userInfo?.imageUrl}
-									height="200px"
-									width="200px"
-								/>
+								{qrId === '' ? <></> : <QRCode value={qrId} id="qrCodeEl" />}
 							</Col>
 						</Row>
 					</TabPane>
@@ -823,4 +822,4 @@ const BusinessUsers = () => {
 	)
 }
 
-export { BusinessUsers }
+export default GenerationPlan
