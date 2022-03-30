@@ -12,10 +12,9 @@ const Login = () => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		if (token) {
-			if (user?.role === 3) {
-				navigate('/admin/dashboard')
-			}
+		const token = localStorage.getItem('jwt')
+		if (token && user.role === 3) {
+			navigate('/admin/dashboard')
 		}
 	}, [user])
 
