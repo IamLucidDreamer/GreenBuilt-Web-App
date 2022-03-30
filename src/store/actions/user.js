@@ -22,7 +22,7 @@ export const login =
 			})
 			.then(res => {
 				res?.data?.data?.role === 1 || res?.data?.data?.role === 2
-					? toast.warning("Web Portal is for Business's and Admins only.")
+					? toast.warning('CRM Portal is for Admins only.')
 					: toast.success(res?.data?.message)
 				dispatch(setUserDetails(res?.data?.data))
 				dispatch(setAuth(true))

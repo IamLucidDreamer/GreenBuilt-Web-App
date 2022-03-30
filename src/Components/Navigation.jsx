@@ -34,7 +34,7 @@ const Navigation = () => {
 
 			{/* Handling the Admin Routes */}
 
-			{user?.role === 3 && authenticated ? (
+			{user?.role === 3 && token ? (
 				<>
 					<Route path="/admin/dashboard" element={<AdminDashboard />} />
 					<Route path="/admin/dashboard/users" element={<Users />} />

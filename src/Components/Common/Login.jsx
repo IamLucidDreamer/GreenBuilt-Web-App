@@ -5,22 +5,17 @@ import { login } from '../../store/actions/user'
 import { useSelector, useDispatch } from 'react-redux'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { authenticated } from '../../helpers/auth'
 
 const Login = () => {
 	const user = useSelector(state => state.user)
+	const token = JSON.parse(localStorage.getItem('jwt'))
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		if (authenticated) {
-			if (user?.role === 2) {
-				navigate('/business/dashboard')
-			}
+		if (token) {
 			if (user?.role === 3) {
 				navigate('/admin/dashboard')
 			}
-		} else {
-			navigate('/')
 		}
 	}, [user])
 
